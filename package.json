@@ -1,6 +1,6 @@
 {
   "name": "piesat-water-vue-common-header",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "author": "mashitu",
   "private": false,
   "scripts": {
@@ -14,14 +14,11 @@
   ],
   "main": "lib/piesat-water-vue-common-header.common.js",
   "dependencies": {
-    "collect.js": "^4.20.3",
     "core-js": "^3.6.4",
     "element-ui": "^2.4.5",
-    "i": "^0.3.6",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
-    "vuex": "^3.1.2",
-    "webuploader": "^0.1.8"
+    "vuex": "^3.1.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.2.0",

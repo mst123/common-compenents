@@ -1,5 +1,5 @@
-import MHeader from './components/header/index.vue'
-const components = [MHeader]
+import MainHeader from './components/header/index.vue'
+const components = [MainHeader]
 /**
  * 绑定组件
  * @param Vue
@@ -17,5 +17,5 @@ function bindComponents(Vue) {
 function install(Vue) {
   bindComponents(Vue)
 }
-export default { install, MHeader }
+export default { install, MainHeader }
 
