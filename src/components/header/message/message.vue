@@ -1,7 +1,7 @@
 <template>
-  <div 
-    @mouseover="floatVisible=true" 
-    @mouseout="floatVisible=false" 
+  <div
+    @mouseover="floatVisible=true"
+    @mouseout="floatVisible=false"
     class="msg-top-content"
   >
     <el-badge :value="messageNum" class="num-item">
@@ -16,19 +16,29 @@
           <p>系统消息({{messageNum}})</p>
           <el-link @click="readMore" :underline='false' class="msg-more" type="primary">查看更多</el-link>
         </div>
-        <div v-if="messageNum" class="infinite-list" v-infinite-scroll="msgLoadMore" style="overflow:auto">
+        <div v-if="messageNum" class="infinite-list"
+          v-infinite-scroll="msgLoadMore"
+          style="overflow-y:auto;overflow-x:hidden;"
+          infinite-scroll-disabled="disabled"
+        >
           <template v-for="(item, index) of msgList">
-            <el-tooltip v-if="item.name.length>19" :key="index" class="item" effect="dark" :content="item.name" placement="top">
+            <el-tooltip v-if="item.NOTIFICATIONS.length>19" :key="index" class="item" effect="dark" :content="item.NOTIFICATIONS" placement="top">
               <div @click="previewMsg(item)" class="infinite-list-item">
-                <i :class="item.type==1?'el-icon-s-comment':'el-icon-finished'"></i>
-                {{item.name}}
+                <i :class="item.NOTICE_TYPE==2?'el-icon-s-comment':'el-icon-finished'"></i>
+                {{item.NOTIFICATIONS}}
               </div>
+              <div class="dashed"></div>
             </el-tooltip>
-            <div @click="previewMsg(item)" v-else class="infinite-list-item" :key="index">
-              <i :class="item.type==1?'el-icon-s-comment':'el-icon-finished'"></i>
-              {{item.name}}
-            </div>
+            <template v-else>
+              <div @click="previewMsg(item)" class="infinite-list-item" :key="index">
+                <i :class="item.NOTICE_TYPE==2?'el-icon-s-comment':'el-icon-finished'"></i>
+                {{item.NOTIFICATIONS}}
+              </div>
+              <div class="dashed" :key="index+'a'"></div>
+            </template>
           </template>
+          <p class="title" v-if="loading">加载中...</p>
+          <p class="title" v-if="noMore">没有更多了</p>
         </div>
         <p v-else>
           暂无新消息
@@ -42,7 +52,7 @@
       width="800px"
       append-to-body
     >
-      <TableCom @messageEmit="previewMsg" />
+      <TableCom ref="tableCom" @messageEmit="previewMsg" />
     </el-dialog>
     <el-dialog
       title="消息信息"
@@ -62,32 +72,16 @@ export default {
   name: 'message',
   data () {
     return {
-      messageNum: 20, //提示消息总数
+      messageNum: 0, //提示消息总数
       dialogMessage: false, //消息总弹窗
       dialogNotice: false,  //提醒类信息弹窗
       messageNotice: '',
       msgList: [     //提示消息列表
-        {
-          name: '萨达萨达数据萨达萨达数据库萨达萨达数据库萨达萨达数据库萨达萨达数据库达萨达数据库萨达萨达数据库库',
-          type: '0'
-        },{
-          name: '萨达萨达数据库萨达萨达数据萨达萨达数据',
-          type: '1'
-        },{
-          name: '萨达萨达数据库萨达萨达数据萨达萨达数据库萨达萨萨达萨达数据萨达萨达数据库萨达萨',
-          type: '0'
-        },{
-          name: '萨达萨达数据库',
-          type: '0'
-        },{
-          name: '萨达萨达数据库',
-          type: '1'
-        },{
-          name: '萨达萨达数据萨达萨达数据库萨达萨达数据库萨达萨达数据库萨达萨达数据库达萨达数据库萨达萨达数据库库',
-          type: '0'
-        }
+
       ],
-      floatVisible: false, 
+      floatVisible: false,
+      currentPage: 1,
+      loading: false
     }
   },
   methods: {
@@ -95,47 +89,77 @@ export default {
       this.dialogMessage = true
     },
     msgLoadMore(){ //滚动加载
-      console.log(1);
-      let arr = [{
-        name: '萨达萨达数据库',
-        type: '0'
-      },{
-        name: '萨达萨达数据库',
-        type: '1'
-      },{
-        name: '萨达萨达数据库',
-        type: '1'
-      },{
-        name: '萨达萨达数据库',
-        type: '0'
-      },{
-        name: '萨达萨达数据库',
-        type: '0'
-      }]
-      this.msgList.push(...arr)
+      this.currentPage++
+      if(!this.noMore){
+        this.getUnHandleTotal()
+      }
     },
     previewMsg(item){
-      console.log(1111111);
-      
-      if(item.type==1){ //消息类
+      console.log(item);
+      if(item.NOTICE_TYPE==2){ //消息类
         this.dialogNotice = true
-        this.messageNotice = item.name
+        this.messageNotice = item.NOTIFICATIONS
+        //将未读消息标记为已读
+        if(item.NOTICE_STATUS!=2){ //筛选出已读消息
+          this.axios.post(this.$config.serverIP + 'siltDam/SwcSysNotice/getSwcSysNoticeReadStatus',
+            {
+              noticeId: item.NOTICE_ID,
+            }
+          ).then((res) => {
+            console.log(res)
+            //刷新头部未读消息
+            this.currentPage = 1
+            this.msgList = []
+            this.getUnHandleTotal()
+            //刷新弹出框消息
+            if(this.dialogMessage){
+              this.$refs['tableCom'].getMessage()
+            }
+          }).catch((error) => {
+            console.log(error);
+          })
+        }
       }else{ //办理类
-        alert('跳转')
-        // this.$router.push('')
+        console.log('办理');
+
+        this.$router.push(item.SUBMODULE_URL)
       }
+    },
+    getUnHandleTotal(){
+      this.axios.post(this.$config.serverIP + 'siltDam/SwcSysNotice/getSwcSysNotice',
+        {
+          page: this.currentPage,
+          rows: 6
+        }
+      ).then((res) => {
+        console.log(res)
+        if(res.data.meta.success){
+          this.msgList.push(...res.data.data.list)
+          this.messageNum = res.data.data.total
+        }
+      }).catch((error) => {
+
+      })
     }
   },
   mounted() {
-
+    this.getUnHandleTotal()
   },
   created () {
-    
+
   },
   props:[],
   components: {
     TableCom
-  }
+  },
+  computed: {
+    noMore () {
+      return this.currentPage>Math.ceil(this.messageNum/6)
+    },
+    disabled () {
+      return this.loading || this.noMore
+    }
+  },
 }
 </script>
 
@@ -145,8 +169,8 @@ export default {
     position: relative;
     width: 40px;
     height: 40px;
-    float: left;
     box-sizing: border-box;
+    float: left;
     .num-item{
       height: 40px;
       width: 40px;
@@ -166,6 +190,7 @@ export default {
     .float-box{
       width: 340px;
       height: 228px;
+
       position: absolute;
       top: 40px;
       left: -150px;
@@ -180,7 +205,7 @@ export default {
           border-color: transparent transparent #ffffff transparent;
           margin: 0 auto;
           position: relative;
-          top: -12px;
+          top: -11px;
         }
       }
       .msg-content{
@@ -189,6 +214,8 @@ export default {
         background: #ffffff;
         border-radius: 10px;
         overflow: hidden;
+        border: 1px solid #cccccc;
+        box-shadow: 5px 5px 20px #888888;
         .msg-title{
           height: 50px;
           line-height: 50px;
@@ -198,11 +225,12 @@ export default {
             margin: 0;
             height: 50px;
             line-height: 50px;
-            font-size: 16px;
+            font-size: 14px;
+            font-weight: 900;
           }
           .msg-more{
             float: right;
-            font-size: 16px;
+            font-size: 14px;
             margin-right: 20px;
           }
         }
@@ -215,9 +243,8 @@ export default {
             white-space: nowrap;
             overflow: hidden;
             width: 100%;
-            height: 30px;
-            line-height: 30px;
-            padding-left: 10px;
+            height: 29px;
+            line-height: 29px;
             box-sizing: border-box;
             text-align: left;
             font-size: 14px;
@@ -229,6 +256,27 @@ export default {
               padding: 0 15px;
             }
           }
+          .dashed{
+            height: 0;
+            border-bottom: 1px dashed #cccccc;
+            width: 100%;
+            position: relative;
+            left: 50px;
+          }
+          p.title{
+            width: 100%;
+            text-align: center;
+            height: 30px;
+            line-height: 30px;
+            font-size: 14px;
+          }
+        }
+        &>p{
+          width: 100%;
+          text-align: center;
+          height: 30px;
+          line-height: 30px;
+          font-size: 14px;
         }
       }
     }
@@ -240,27 +288,30 @@ export default {
   }
   // 弹窗框
   /deep/ .el-dialog {
-  .el-dialog__header {
-    background: #3fbcdd;
-    padding: 0 20px;
-    height: 35px;
-    line-height: 35px;
-    font-size: 16px;
-    span {
-      color: #ffffff;
-    }
-    .el-dialog__headerbtn {
-      top: 9px;
-    }
-    .el-dialog__close {
-      font-size: 20px;
-      color: #ffffff;
-    }
-    .el-dialog__title {
-      float: left;
+    .el-dialog__header {
+      background: #3fbcdd;
+      padding: 0 20px;
+      height: 35px;
+      line-height: 35px;
       font-size: 16px;
-      padding-top: 5px;
+      span {
+        color: #ffffff;
+      }
+      .el-dialog__headerbtn {
+        top: 9px;
+      }
+      .el-dialog__close {
+        font-size: 20px;
+        color: #ffffff;
+      }
+      .el-dialog__title {
+        float: left;
+        font-size: 16px;
+        padding-top: 5px;
+      }
+    }
+    .el-dialog__body{
+      padding: 10px 20px;
     }
   }
-}
 </style>

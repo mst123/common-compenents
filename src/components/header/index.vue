@@ -10,6 +10,9 @@
       <div class="bg-right"></div>
     </div>
     <div class="admin-content">
+      <!-- <el-badge :value="3" class="xiaoxi" style="float:left;">
+        <span @click="exit" class="xiaoxi img"></span>
+      </el-badge> -->
       <HeaderMessage/>
       <span class="help img"></span>
       <el-tooltip class="item" effect="dark" :content="'欢迎您：' + userName" placement="bottom">
@@ -21,6 +24,7 @@
     <div class="menu-content">
       <el-menu
         :default-active="activeIndex"
+        :router="true"
         class="el-menu"
         mode="horizontal"
         background-color="#00AFD7"
@@ -28,7 +32,7 @@
         text-color="#ffffff"
       >
         <template v-for="(item, index) of menuList">
-          <el-menu-item v-if="item.list.length==0" :index="item.url" :key="String(index+1)">{{item.name}}</el-menu-item>
+          <el-menu-item v-if="item.list.length==0" :index="item.url" :key="String(index+'a')">{{item.name}}</el-menu-item>
           <el-submenu v-else index="keep" :key="index">
             <template slot="title">
               <!-- <el-menu-item class="group-title" :index="item.url">{{item.name}}</el-menu-item> -->
@@ -44,6 +48,7 @@
 </template>
 
 <script>
+import axios from 'axios' //all spread 不是实例方法
 import HeaderMessage from './message/message'
 export default {
   name: 'MainHeader',
@@ -54,14 +59,23 @@ export default {
   },
   methods: {
     exit(){
-      this.axios.get(this.$config.serverIP + 'cas/logout')
-      .then((res) => {
-        if(res.status=='200'){
-          // location.reload(true)
-        }else{
-          this.$error('退出失败，请重试')
-        }
-      }).catch((error) => {
+      axios.all(
+        [
+          this.axios.get(this.$config.serverIP + 'cas/logout'),
+          this.axios.get(this.$config.adminIP + 'wasc-admin/logout')
+        ]
+      ).then(
+        axios.spread( (test1Res,test2Res) => {
+          console.log(test1Res)
+          console.log(test2Res)
+          if(test1Res.status==200&&test2Res.status==200){
+            location.reload(true)
+          }else{
+            this.$error('退出失败，请重试')
+          }
+        })
+      ).catch((error) => {
+        console.log(error);
         this.$error('退出失败，请重试')
       })
     },
@@ -69,17 +83,17 @@ export default {
       this.activeIndex = this.$route.path //关键   通过他就可以监听到当前路由状态并激活当前菜单
     },
     home(){
-
-    },
+      location.href = this.$config.adminIP + 'wasc-admin/'
+    }
   },
   mounted() {
-    
+    console.log(this);
   },
   created () {
     this.setCurrentRoute()
   },
   props:['title','menuList','userName'],
-  components: {
+  components:{
     HeaderMessage
   }
 }
@@ -140,7 +154,7 @@ export default {
       height: 40px;
       border-bottom: 0;
       font-size: 18px;
-      /deep/ .el-menu-item{
+      >>> .el-menu-item{
         font-size: 16px;
         font-weight: 900;
         height: 40px;
@@ -150,7 +164,7 @@ export default {
           border-bottom: 4px solid #0083A3!important;
         }
       }
-      /deep/ .el-submenu__title{
+      >>> .el-submenu__title{
         height: 40px;
         line-height: 43px;
       }
@@ -181,6 +195,7 @@ export default {
         background: url('../../assets/img/xiaoxi.png') no-repeat center;
       }
     }
+
     dl.user{
       padding: 0 5px;
       margin: 0;

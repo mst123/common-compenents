@@ -18,12 +18,12 @@
       style="width: 100%"
     >
       <el-table-column align="center" type="index" label="序号" width="80" ></el-table-column>
-      <el-table-column align="center" prop="name" show-overflow-tooltip label="消息">
+      <el-table-column align="center" prop="NOTIFICATIONS" show-overflow-tooltip label="消息">
         <template slot-scope="scope">
-          <p @click="messageClick(scope.row)" :style="{margin:0,cursor:'pointer'}">{{ scope.row.name }}</p>
+          <p @click="messageClick(scope.row)" :style="{margin:0,cursor:'pointer'}">{{ scope.row.NOTIFICATIONS }}</p>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="type" :formatter="(row, column, cellValue)=>cellValue==1?'通知':'办理'" label="类型" width="120" ></el-table-column>
+      <el-table-column align="center" prop="NOTICE_TYPE" :formatter="(row, column, cellValue)=>cellValue==2?'通知':'办理'" label="类型" width="120" ></el-table-column>
     </el-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -57,48 +57,51 @@ export default {
         second: 1
       },
       tableData: [
-        {
-          name: '萨达萨达数据萨达萨达数据库萨达萨达数据库萨达萨达数据库萨达萨达数据库达萨达数据库萨达萨达数据库库',
-          type: '0',
-        },{
-          name: '萨达萨达数据库萨达萨达数据萨达萨达数据',
-          type: '1'
-        },{
-          name: '萨达萨达数据库萨达萨达数据萨达萨达数据库萨达萨萨达萨达数据萨达萨达数据库萨达萨',
-          type: '0'
-        },{
-          name: '萨达萨达数据库',
-          type: '0'
-        },{
-          name: '萨达萨达数据库',
-          type: '1'
-        },{
-          name: '萨达萨达数据萨达萨达数据库萨达萨达数据库萨达萨达数据库萨达萨达数据库达萨达数据库萨达萨达数据库库',
-          type: '0'
-        }
-      ]
+
+      ],
+      getMessageUrl: {
+        first: 'siltDam/SwcSysNotice/getSwcSysNotice',
+        second: 'siltDam/SwcSysNotice/getSwcSysNoticeRead'
+      }
     }
   },
   methods: {
     handleSizeChange(val) {
-      this.pageSize[activeName] = val
+      this.pageSize[this.activeName] = val
+      this.getMessage()
     },
     handleCurrentChange(val) {
-      this.currentPage[activeName] = val
+      this.currentPage[this.activeName] = val
+      this.getMessage()
     },
     tabClick(tab, event){
-      console.log(tab);
+      this.getMessage()
     },
     messageClick(row){
-      console.log(row);
       this.$emit('messageEmit',row)
+    },
+    getMessage(){
+      this.axios.post(this.$config.serverIP + this.getMessageUrl[this.activeName],
+        {
+          page: this.currentPage[this.activeName],
+          rows: this.pageSize[this.activeName]
+        }
+      ).then((res) => {
+        console.log(res)
+        if(res.data.meta.success){
+          this.total[this.activeName] = res.data.data.total
+          this.tableData = res.data.data.list
+        }
+      }).catch((error) => {
+        console.log(error);
+      })
     }
   },
   mounted() {
-
+    this.getMessage()
   },
   created () {
-    
+
   },
   props: {
     dialogVisible: Boolean,
@@ -112,32 +115,7 @@ export default {
   .tabs{
     /deep/ .el-tabs__nav-scroll{
       padding-left: 20px;
-    } 
-  }
-}
-/deep/ .el-dialog {
-  .el-dialog__header {
-    background: #3fbcdd;
-    padding: 0 20px;
-    height: 35px;
-    line-height: 35px;
-    font-size: 16px;
-    span {
-      color: #ffffff;
-    }
-    .el-dialog__headerbtn {
-      top: 5px;
-    }
-    .el-dialog__close {
-      font-size: 20px;
-      color: #ffffff;
-    }
-    .el-dialog__title {
-      float: left;
-      font-size: 16px;
-      padding-top: 5px;
     }
   }
-  box-shadow: 10px 10px 5px #888888;
 }
 </style>

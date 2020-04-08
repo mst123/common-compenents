@@ -1,6 +1,6 @@
 {
   "name": "piesat-water-vue-common-header",
-  "version": "0.0.3",
+  "version": "0.0.7",
   "author": "mashitu",
   "private": false,
   "scripts": {
@@ -14,6 +14,7 @@
   ],
   "main": "lib/piesat-water-vue-common-header.common.js",
   "dependencies": {
+    "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "element-ui": "^2.4.5",
     "vue": "^2.6.11",
