@@ -10,9 +10,6 @@
       <div class="bg-right"></div>
     </div>
     <div class="admin-content">
-      <!-- <el-badge :value="3" class="xiaoxi" style="float:left;">
-        <span @click="exit" class="xiaoxi img"></span>
-      </el-badge> -->
       <HeaderMessage/>
       <span class="help img"></span>
       <el-tooltip class="item" effect="dark" :content="'欢迎您：' + userName" placement="bottom">
@@ -27,15 +24,14 @@
         :router="true"
         class="el-menu"
         mode="horizontal"
-        background-color="#00AFD7"
+        background-color="#1E9FFF"
         active-text-color="#ffffff"
-        text-color="#ffffff"
+        text-color="#BCE2FF"
       >
         <template v-for="(item, index) of menuList">
           <el-menu-item v-if="item.list.length==0" :index="item.url" :key="String(index+'a')">{{item.name}}</el-menu-item>
           <el-submenu v-else index="keep" :key="index">
             <template slot="title">
-              <!-- <el-menu-item class="group-title" :index="item.url">{{item.name}}</el-menu-item> -->
               {{item.name}}
             </template>
             <el-menu-item v-for="(itemC, indexC) of item.list" :key="index+'-'+indexC" :index="itemC.url">{{itemC.name}}</el-menu-item>
@@ -102,113 +98,111 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
   .m-header{
-    height: 40px;
-    background: #00AFD7;
+    height: 100%;
+    background: #1E9FFF;
     .logo-box{
       position: relative;
       float: left;
+      height: 100%;
       .leftbg{
         position: relative;
         float: left;
-        background: #0092BF;
+        // background: #0092BF;
         border-radius: 0 0 0 6px;
         padding-right: 4px;
-        height: 43px;
+        height: 100%;
         z-index: 20;
         .logo{
           float: left;
-          height: 28px;
+          height: 100%;
           width: 30px;
-          background: url('../../assets/img/logo.png') no-repeat;
-          background-size: 100% 100%;
-          margin: 9px 9px;
+          background: url('../../assets/img/logo.png') no-repeat center;
+          background-size: contain;
+          margin: 0 9px;
         }
         .logo-title{
-          height: 43px;
-          line-height: 43px;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           float: left;
-          font-size: 24px;
+          font-size: 21px;
           color: #ffffff;
         }
       }
       .bg-right{
-        height: 43px;
+        height: 100%;
         width: 30px;
-        line-height: 43px;
         float: left;
-        background: url('../../assets/img/bg-right.png') no-repeat center;
+        // background: url('../../assets/img/bg-right.png') no-repeat center;
         background-size: 100% 100%;
       }
     }
     .menu-content{
+      height: 100%;
       float: right;
       margin-right: 10px;
     }
     .admin-content{
+      height: 100%;
       float: right;
     }
     .el-col{
-      height: 40px;
+      height: 100%;
     }
     .el-menu{
-      height: 40px;
+      height: 100%;
       border-bottom: 0;
       font-size: 18px;
       >>> .el-menu-item{
         font-size: 16px;
-        font-weight: 900;
-        height: 40px;
-        line-height: 43px;
+        // font-weight: 900;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        line-height: initial;
+        box-sizing: border-box;
+        padding-bottom: 5px;
+        border-bottom: 4px solid transparent;
         &.is-active{
           background-color: #0092BF!important;
           border-bottom: 4px solid #0083A3!important;
         }
       }
-      >>> .el-submenu__title{
-        height: 40px;
-        line-height: 43px;
-      }
-    }
-    .group-title{
-      display: inline;
-      padding: 0;
     }
     span.img{
-      height: 40px;
+      height: 100%;
       width: 40px;
-      background-size: contain;
       cursor: pointer;
       float: left;
       &.exit{
-        background: url('../../assets/img/exit.png') no-repeat center;
+        background: url('../../assets/img/exit.png') no-repeat center / 24px 24px;
       }
       &.admin{
-        background: url('../../assets/img/admin.png') no-repeat center;
+        background: url('../../assets/img/admin.png') no-repeat center / 24px 24px;
       }
       &.help{
-        background: url('../../assets/img/help.png') no-repeat center;
+        background: url('../../assets/img/help.png') no-repeat center / 24px 24px;
       }
       &.home{
-        background: url('../../assets/img/home.png') no-repeat center;
+        background: url('../../assets/img/home.png') no-repeat center / 24px 24px;
       }
       &.xiaoxi{
-        background: url('../../assets/img/xiaoxi.png') no-repeat center;
+        background: url('../../assets/img/xiaoxi.png') no-repeat center / 24px 24px;
       }
     }
-
     dl.user{
       padding: 0 5px;
       margin: 0;
-      height: 40px;
-      line-height: 40px;
+      height: 100%;
       color: #ffffff;
       font-size: 16px;
       float: right;
       overflow: hidden;
       dt,dd{
         float: left;
-        height: 40px;
-        line-height: 40px;
+        height: 100%;
         padding: 0 5px;
       }
     }

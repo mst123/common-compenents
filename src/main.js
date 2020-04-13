@@ -1,5 +1,11 @@
 import MainHeader from './components/header/index.vue'
-const components = [MainHeader]
+import TitleBar from './components/title-bar/index.vue'
+import ShadowContent from './components/shadow-content/index.vue'
+import ElDialogSelf from './components/dialog/index.vue'
+import ElTableSelf from './components/dialog/index.vue'
+const components = [
+  MainHeader,TitleBar,ShadowContent,ElDialogSelf,ElTableSelf
+]
 /**
  * 绑定组件
  * @param Vue
@@ -17,5 +23,12 @@ function bindComponents(Vue) {
 function install(Vue) {
   bindComponents(Vue)
 }
-export default { install, MainHeader }
+export default { 
+  install, 
+  MainHeader, 
+  TitleBar, 
+  ShadowContent, 
+  ElDialogSelf, 
+  ElTableSelf
+}
 

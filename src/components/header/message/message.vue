@@ -168,11 +168,11 @@ export default {
   .msg-top-content{
     position: relative;
     width: 40px;
-    height: 40px;
+    height: 100%;
     box-sizing: border-box;
     float: left;
     .num-item{
-      height: 40px;
+      height: 100%;
       width: 40px;
       cursor: pointer;
       /deep/ .el-badge__content.is-fixed{
@@ -182,9 +182,10 @@ export default {
         padding: 0 4px;
       }
       .bg{
-        height: 40px;
+        height: 100%;
         width: 40px;
         background: url('../../../assets/img/xiaoxi.png') no-repeat center;
+        background-size: 24px 24px;
       }
     }
     .float-box{
