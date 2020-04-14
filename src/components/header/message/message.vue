@@ -45,7 +45,7 @@
         </p>
       </div>
     </div>
-    <el-dialog
+    <el-dialog-self
       title="消息提醒"
       :visible.sync="dialogMessage"
       :close-on-click-modal="false"
@@ -53,8 +53,8 @@
       append-to-body
     >
       <TableCom ref="tableCom" @messageEmit="previewMsg" />
-    </el-dialog>
-    <el-dialog
+    </el-dialog-self>
+    <el-dialog-self
       title="消息信息"
       :visible.sync="dialogNotice"
       :close-on-click-modal="false"
@@ -62,12 +62,13 @@
       append-to-body
     >
       <p class="messageNotice">{{messageNotice}}</p>
-    </el-dialog>
+    </el-dialog-self>
   </div>
 </template>
 
 <script>
 import TableCom from './components/table'
+import ElDialogSelf from '../../dialog/index'
 export default {
   name: 'message',
   data () {
@@ -95,13 +96,13 @@ export default {
       }
     },
     previewMsg(item){
-      console.log(item);
+      
       if(item.NOTICE_TYPE==2){ //消息类
         this.dialogNotice = true
         this.messageNotice = item.NOTIFICATIONS
         //将未读消息标记为已读
         if(item.NOTICE_STATUS!=2){ //筛选出已读消息
-          this.axios.post(this.$config.serverIP + 'siltDam/SwcSysNotice/getSwcSysNoticeReadStatus',
+          this.axios.post(this.serverIP + '/SwcSysNotice/getSwcSysNoticeReadStatus',
             {
               noticeId: item.NOTICE_ID,
             }
@@ -120,13 +121,11 @@ export default {
           })
         }
       }else{ //办理类
-        console.log('办理');
-
         this.$router.push(item.SUBMODULE_URL)
       }
     },
     getUnHandleTotal(){
-      this.axios.post(this.$config.serverIP + 'siltDam/SwcSysNotice/getSwcSysNotice',
+      this.axios.post(this.serverIP + '/SwcSysNotice/getSwcSysNotice',
         {
           page: this.currentPage,
           rows: 6
@@ -150,8 +149,10 @@ export default {
   },
   props:[],
   components: {
-    TableCom
+    TableCom,
+    ElDialogSelf
   },
+  inject: ['axios','serverIP'],
   computed: {
     noMore () {
       return this.currentPage>Math.ceil(this.messageNum/6)
@@ -286,33 +287,5 @@ export default {
     width: 100%;
     height: 24px;
     line-height: 24px;
-  }
-  // 弹窗框
-  /deep/ .el-dialog {
-    .el-dialog__header {
-      background: #3fbcdd;
-      padding: 0 20px;
-      height: 35px;
-      line-height: 35px;
-      font-size: 16px;
-      span {
-        color: #ffffff;
-      }
-      .el-dialog__headerbtn {
-        top: 9px;
-      }
-      .el-dialog__close {
-        font-size: 20px;
-        color: #ffffff;
-      }
-      .el-dialog__title {
-        float: left;
-        font-size: 16px;
-        padding-top: 5px;
-      }
-    }
-    .el-dialog__body{
-      padding: 10px 20px;
-    }
   }
 </style>

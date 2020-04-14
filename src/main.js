@@ -2,9 +2,10 @@ import MainHeader from './components/header/index.vue'
 import TitleBar from './components/title-bar/index.vue'
 import ShadowContent from './components/shadow-content/index.vue'
 import ElDialogSelf from './components/dialog/index.vue'
-import ElTableSelf from './components/dialog/index.vue'
+import ElTableSelf from './components/table/index.vue'
+import ElMenuVerticalSelf from './components/el-menu/index.vue'
 const components = [
-  MainHeader,TitleBar,ShadowContent,ElDialogSelf,ElTableSelf
+  MainHeader,TitleBar,ShadowContent,ElDialogSelf,ElTableSelf,ElMenuVerticalSelf
 ]
 /**
  * 绑定组件
@@ -29,6 +30,7 @@ export default {
   TitleBar, 
   ShadowContent, 
   ElDialogSelf, 
-  ElTableSelf
+  ElTableSelf,
+  ElMenuVerticalSelf
 }
 

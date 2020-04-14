@@ -20,7 +20,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$attrs);
+    
   },
   created () {
     
@@ -61,25 +61,33 @@ export default {
     /deep/  .el-dialog{
       margin: auto;
       .el-dialog__header{
-        background: #3FBCDD;
+        background: #009688;
         padding: 0 20px;
-        height: 50px;
-        line-height: 56px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 16px;
+        text-align: left;
+        .el-dialog__title{
+          font-size: 16px;
+        }
         span{
           color:#ffffff;
         }
         .el-dialog__headerbtn{
-          top: 15px;
+          top: 9px;
           line-height: 20px;
         }
         .el-dialog__close{
-          font-size: 24px;
+          font-size: 20px;
           color: #ffffff;
         }
       }
       .el-dialog__body{
         padding: 15px;
-        max-height: calc( 95vh - 50px );
+        box-sizing: border-box;
+        max-height: calc( 95vh - 35px );
+        overflow-x: hidden;
+        overflow-y: auto;
       }
     }
   } 

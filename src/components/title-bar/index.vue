@@ -49,7 +49,7 @@ export default {
       position: relative;
       top: 3px;
       margin-right: 8px;
-      background: #419eff;
+      background: #009688;
     }
   }
 </style>

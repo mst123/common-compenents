@@ -24,18 +24,12 @@
         :router="true"
         class="el-menu"
         mode="horizontal"
-        background-color="#1E9FFF"
+        background-color="transparent"
         active-text-color="#ffffff"
         text-color="#BCE2FF"
       >
         <template v-for="(item, index) of menuList">
-          <el-menu-item v-if="item.list.length==0" :index="item.url" :key="String(index+'a')">{{item.name}}</el-menu-item>
-          <el-submenu v-else index="keep" :key="index">
-            <template slot="title">
-              {{item.name}}
-            </template>
-            <el-menu-item v-for="(itemC, indexC) of item.list" :key="index+'-'+indexC" :index="itemC.url">{{itemC.name}}</el-menu-item>
-          </el-submenu>
+          <el-menu-item @click="routerClick(item)" :index="item.url" :key="String(index+'a')">{{item.name}}</el-menu-item>
         </template>
       </el-menu>
     </div>
@@ -57,8 +51,8 @@ export default {
     exit(){
       axios.all(
         [
-          this.axios.get(this.$config.serverIP + 'cas/logout'),
-          this.axios.get(this.$config.adminIP + 'wasc-admin/logout')
+          this.axios.get(this.serverIP + '/cas/logout'),
+          this.axios.get(this.adminIP + '/wasc-admin/logout')
         ]
       ).then(
         axios.spread( (test1Res,test2Res) => {
@@ -79,18 +73,55 @@ export default {
       this.activeIndex = this.$route.path //关键   通过他就可以监听到当前路由状态并激活当前菜单
     },
     home(){
-      location.href = this.$config.adminIP + 'wasc-admin/'
+      location.href = this.adminIP + 'wasc-admin/'
     }
   },
   mounted() {
-    console.log(this);
+
   },
   created () {
     this.setCurrentRoute()
   },
-  props:['title','menuList','userName'],
+  props:{
+    title: {
+      type: String,
+      required: true,
+    },
+    menuList: {
+      type: Array,
+      required: true,
+    },
+    userName: {
+      required: true,
+    },
+    axios: {
+      required: true,
+    },
+    serverIP: {
+      type: String,
+      required: true,
+    },
+    adminIP: {
+      type: String,
+      required: true,
+    },
+    routerClick: {
+      type: Function,
+      default: function () {
+        return function(){
+
+        }
+      }
+    }
+  },
   components:{
     HeaderMessage
+  },
+  provide: function () {
+    return {
+      axios: this.axios,
+      serverIP: this.serverIP
+    }
   }
 }
 </script>
@@ -99,7 +130,7 @@ export default {
 <style lang='scss' scoped>
   .m-header{
     height: 100%;
-    background: #1E9FFF;
+    background: #009688;
     .logo-box{
       position: relative;
       float: left;
@@ -154,20 +185,23 @@ export default {
       height: 100%;
       border-bottom: 0;
       font-size: 18px;
-      >>> .el-menu-item{
+      /deep/ .el-menu-item{
         font-size: 16px;
-        // font-weight: 900;
         height: 100%;
         display: flex;
         justify-content: center;
-        align-items: flex-end;
+        align-items: center;
         line-height: initial;
         box-sizing: border-box;
-        padding-bottom: 5px;
-        border-bottom: 4px solid transparent;
+        border-bottom: 5px solid transparent;
         &.is-active{
-          background-color: #0092BF!important;
-          border-bottom: 4px solid #0083A3!important;
+          border-bottom: 5px solid #5FB878!important;
+          font-weight: 400;
+        }
+        &:hover{
+          background-color: transparent!important;
+          border-bottom: 5px solid #5FB878!important;
+          color: #ffffff!important;
         }
       }
     }

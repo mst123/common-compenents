@@ -35,11 +35,16 @@ export default {
             color: '#000000', 
             fontSize: '14px', 
             fontWeight: '400', 
-            borderRight: '1px solid #E6E6E6' 
+            borderRight: '1px solid #E6E6E6',
+            height: '40px',
+            padding: '4px 0',
           },
           stripe: true,
           size: "medium",
-          'row-style': { height: '40px' }
+          'cell-style': { 
+            height: '40px',
+            padding: '4px 0',
+          }
         },
         this.$attrs
       )

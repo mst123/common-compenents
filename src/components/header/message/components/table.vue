@@ -4,16 +4,9 @@
       <el-tab-pane label="未 办" name="first"></el-tab-pane>
       <el-tab-pane label="已 办" name="second"></el-tab-pane>
     </el-tabs>
-    <el-table
-      stripe
-      :header-cell-style="{
-        background: '#F5F3F4',
-        color: '#909399',
-        fontSize: '12px',
-        borderRight: '4px solid #ffffff'
-      }"
+    <el-table-self
       max-height="400"
-      size="medium"
+      size="small"
       :data="tableData"
       style="width: 100%"
     >
@@ -24,7 +17,7 @@
         </template>
       </el-table-column>
       <el-table-column align="center" prop="NOTICE_TYPE" :formatter="(row, column, cellValue)=>cellValue==2?'通知':'办理'" label="类型" width="120" ></el-table-column>
-    </el-table>
+    </el-table-self>
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -39,6 +32,7 @@
 </template>
 
 <script>
+import ElTableSelf from "../../../table/index";
 export default {
   name: 'TableCom',
   data () {
@@ -60,8 +54,8 @@ export default {
 
       ],
       getMessageUrl: {
-        first: 'siltDam/SwcSysNotice/getSwcSysNotice',
-        second: 'siltDam/SwcSysNotice/getSwcSysNoticeRead'
+        first: '/SwcSysNotice/getSwcSysNotice',
+        second: '/SwcSysNotice/getSwcSysNoticeRead'
       }
     }
   },
@@ -103,8 +97,12 @@ export default {
   created () {
 
   },
+  inject: ['axios','serverIP'],
   props: {
     dialogVisible: Boolean,
+  },
+  components:{
+    ElTableSelf
   }
 }
 </script>
