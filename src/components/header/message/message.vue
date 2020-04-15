@@ -102,7 +102,7 @@ export default {
         this.messageNotice = item.NOTIFICATIONS
         //将未读消息标记为已读
         if(item.NOTICE_STATUS!=2){ //筛选出已读消息
-          this.axios.post(this.serverIP + '/SwcSysNotice/getSwcSysNoticeReadStatus',
+          this.axios.post(this.serverIP + 'SwcSysNotice/getSwcSysNoticeReadStatus',
             {
               noticeId: item.NOTICE_ID,
             }
@@ -125,7 +125,7 @@ export default {
       }
     },
     getUnHandleTotal(){
-      this.axios.post(this.serverIP + '/SwcSysNotice/getSwcSysNotice',
+      this.axios.post(this.serverIP + 'SwcSysNotice/getSwcSysNotice',
         {
           page: this.currentPage,
           rows: 6

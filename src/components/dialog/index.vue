@@ -1,8 +1,15 @@
 <template>
   <el-dialog
     v-bind="computedProp"
-  >
+    v-on="$listeners"
+  > 
+    <template v-slot:title>
+      <slot name="title"></slot>
+    </template>
     <slot></slot>
+    <template v-slot:footer>
+      <slot name="footer"></slot>
+    </template>
   </el-dialog>
 </template>
 
@@ -34,7 +41,6 @@ export default {
         {
           'close-on-click-modal': false,
           'append-to-body': true,
-          center: true,
           width: "80%",
           top: '',
           'before-close': this.beforeClose

@@ -51,8 +51,8 @@ export default {
     exit(){
       axios.all(
         [
-          this.axios.get(this.serverIP + '/cas/logout'),
-          this.axios.get(this.adminIP + '/wasc-admin/logout')
+          this.axios.get(this.serverIP + 'cas/logout'),
+          this.axios.get(this.adminIP + 'wasc-admin/logout')
         ]
       ).then(
         axios.spread( (test1Res,test2Res) => {

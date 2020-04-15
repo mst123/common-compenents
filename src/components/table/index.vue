@@ -1,6 +1,7 @@
 <template>
   <el-table
     v-bind="tableProp"
+    v-on="$listeners"
   >
     <slot></slot>
   </el-table>

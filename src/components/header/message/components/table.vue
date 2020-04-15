@@ -54,8 +54,8 @@ export default {
 
       ],
       getMessageUrl: {
-        first: '/SwcSysNotice/getSwcSysNotice',
-        second: '/SwcSysNotice/getSwcSysNoticeRead'
+        first: 'SwcSysNotice/getSwcSysNotice',
+        second: 'SwcSysNotice/getSwcSysNoticeRead'
       }
     }
   },

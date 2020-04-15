@@ -45,8 +45,22 @@ export default {
       height: 100%;
       border-radius: 5px;
       background: #ffffff;
-      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.4);
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
       overflow: hidden;
+    }
+  }
+</style>
+<style lang="scss">
+  .el-button.el-button--primary{
+    background: #009688;
+    border-color: #009688;
+    &.is-disabled{
+      background: #02cfbb;
+      border-color: #02cfbb;
+      &:hover{
+        background: #02cfbb;
+        border-color: #02cfbb;
+      }
     }
   }
 </style>

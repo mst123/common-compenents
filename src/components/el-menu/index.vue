@@ -2,6 +2,7 @@
   <el-menu
     class="el-menu-vertical"
     v-bind="computedProp"
+    v-on="$listeners"
   >
     <slot></slot>
   </el-menu>
