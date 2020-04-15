@@ -4,8 +4,9 @@ import ShadowContent from './components/shadow-content/index.vue'
 import ElDialogSelf from './components/dialog/index.vue'
 import ElTableSelf from './components/table/index.vue'
 import ElMenuVerticalSelf from './components/el-menu/index.vue'
+import FileContent from './components/fileContent/index'
 const components = [
-  MainHeader,TitleBar,ShadowContent,ElDialogSelf,ElTableSelf,ElMenuVerticalSelf
+  MainHeader,TitleBar,ShadowContent,ElDialogSelf,ElTableSelf,ElMenuVerticalSelf,FileContent
 ]
 /**
  * 绑定组件
@@ -31,6 +32,7 @@ export default {
   ShadowContent, 
   ElDialogSelf, 
   ElTableSelf,
-  ElMenuVerticalSelf
+  ElMenuVerticalSelf,
+  FileContent
 }
 

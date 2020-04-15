@@ -194,6 +194,7 @@ export default {
         line-height: initial;
         box-sizing: border-box;
         border-bottom: 5px solid transparent;
+        background-color: transparent!important;
         &.is-active{
           border-bottom: 5px solid #5FB878!important;
           font-weight: 400;

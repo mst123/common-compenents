@@ -91,7 +91,7 @@ export default {
       .el-dialog__body{
         padding: 15px;
         box-sizing: border-box;
-        max-height: calc( 95vh - 35px );
+        max-height: calc( 95vh - 101px );
         overflow-x: hidden;
         overflow-y: auto;
       }
