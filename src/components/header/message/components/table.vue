@@ -75,7 +75,7 @@ export default {
       this.$emit('messageEmit',row)
     },
     getMessage(){
-      this.axios.post(this.$config.serverIP + this.getMessageUrl[this.activeName],
+      this.axios.post(this.serverIP + this.getMessageUrl[this.activeName],
         {
           page: this.currentPage[this.activeName],
           rows: this.pageSize[this.activeName]

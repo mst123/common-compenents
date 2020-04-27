@@ -61,26 +61,25 @@ export default {
           if(test1Res.status==200&&test2Res.status==200){
             location.reload(true)
           }else{
-            this.$error('退出失败，请重试')
+            this.$message.error('退出失败，请重试')
           }
         })
       ).catch((error) => {
         console.log(error);
-        this.$error('退出失败，请重试')
+        this.$message.error('退出失败，请重试')
       })
     },
     setCurrentRoute () {
-      this.activeIndex = this.$route.path //关键   通过他就可以监听到当前路由状态并激活当前菜单
+      this.activeIndex = '/' + this.$route.path.split('/')[1]
     },
     home(){
       location.href = this.adminIP + 'wasc-admin/'
     }
   },
   mounted() {
-
-  },
-  created () {
-    this.setCurrentRoute()
+    setTimeout(() => {
+      this.setCurrentRoute()
+    }, 1000)
   },
   props:{
     title: {
