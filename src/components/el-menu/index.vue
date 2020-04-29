@@ -2,13 +2,14 @@
  * @Descripttion : 
  * @Author       : 马识途
  * @Date         : 2020-04-13 16:26:09
- * @LastEditTime : 2020-04-29 13:21:51
+ * @LastEditTime : 2020-04-29 15:22:32
  * @FilePath     : \project\hnswc-web\hnswc-ui-web\src\components\el-menu\index.vue
  -->
 <template>
   <el-menu
     class="el-menu-vertical"
-    :class="isCollapse?'hidden':'show'"
+    :collapse="isCollapse"
+    :style="varStyle"
     v-bind="computedProp"
     v-on="$listeners"
   > 
@@ -26,7 +27,9 @@ export default {
   data () {
     return {
       isCollapse: false,
-      
+      varStyle: {
+        "--width": this.maxWidth
+      }
     }
   },
   methods: {
@@ -54,21 +57,9 @@ export default {
           'active-text-color': "#000000",
           'text-color': "#000000",
           'background-color': "#E5EFF1",
-          'collapse': this.isCollapse
         },
         this.$attrs
       )   
-    },
-    menuStyle(){
-      if(this.isCollapse){
-        return {
-          
-        }
-      }else{
-        return {
-          width: this.maxWidth
-        }
-      }
     }
   },
 }
@@ -79,11 +70,10 @@ export default {
   .el-menu-vertical{
     border-right: 0;
     height: 100%;
-    &:not(.el-menu--collapse) {
-      width: 200px;
-    }
     background-color: #E5EFF1;
-    height: 100%;
+    &:not(.el-menu--collapse){
+      width: var(--width);
+    } 
     /deep/ .el-menu-item{
       height: 40px;
       line-height: 40px;

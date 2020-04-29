@@ -74,7 +74,7 @@
 <script>
 import TableCom from "./components/table";
 import ElDialogSelf from "../../dialog/index";
-import msgSyncEventBus from '../../utils/evnetBus'
+import msgSyncEventBus from '../../utils/eventBus'
 export default {
   name: "message",
   data() {
@@ -166,6 +166,7 @@ export default {
   },
   mounted() {
     this.getUnHandleTotal();
+    this.msgEventBusInit()
   },
   created() {},
   props: [],
