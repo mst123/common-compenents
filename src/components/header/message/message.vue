@@ -74,6 +74,7 @@
 <script>
 import TableCom from "./components/table";
 import ElDialogSelf from "../../dialog/index";
+import msgSyncEventBus from '../../utils/evnetBus'
 export default {
   name: "message",
   data() {
@@ -134,6 +135,7 @@ export default {
       }
     },
     getUnHandleTotal() {
+      this.loading = true
       this.axios
         .post(this.serverIP + "SwcSysNotice/getSwcSysNotice", {
           page: this.currentPage,
@@ -141,12 +143,25 @@ export default {
         })
         .then(res => {
           console.log(res);
+          this.loading = false
           if (res.data.meta.success) {
             this.msgList.push(...res.data.data.list);
             this.messageNum = res.data.data.total;
           }
         })
-        .catch(error => {});
+        .catch(error => {
+          console.log(error);
+          this.loading = false
+        });
+    },
+    msgReset(){
+      this.currentPage = 1
+      this.getUnHandleTotal()
+    },
+    msgEventBusInit(){
+      msgSyncEventBus.$on('messageRefresh', () => {  
+        this.msgReset()
+      });
     }
   },
   mounted() {

@@ -1,3 +1,10 @@
+<!--
+ * @Descripttion : 
+ * @Author       : 马识途
+ * @Date         : 2020-04-21 10:39:37
+ * @LastEditTime : 2020-04-28 19:12:10
+ * @FilePath     : \projecte:\codeFile\common-compenents\src\components\shadow-content\index.vue
+ -->
 <template>
   <div class="shadow-box">
     <div class="shadow">
@@ -61,6 +68,11 @@ export default {
         background: #02cfbb;
         border-color: #02cfbb;
       }
+    }
+  }
+  .el-tabs{
+    .el-tabs__item.is-active{
+      font-weight: bold;
     }
   }
 </style>

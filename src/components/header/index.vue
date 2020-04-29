@@ -1,15 +1,14 @@
 <template>
-  <el-row class="m-header">
-    <div class="logo-box">
+  <div class="m-header" ref="header">
+    <div class="logo-box" ref="header-logo">
       <div class="leftbg">
         <div class="logo"></div>
         <div class="logo-title">
           {{title}}
         </div>
       </div>
-      <div class="bg-right"></div>
     </div>
-    <div class="admin-content">
+    <div class="admin-content" ref="header-admin">
       <HeaderMessage/>
       <span class="help img"></span>
       <el-tooltip class="item" effect="dark" :content="'欢迎您：' + userName" placement="bottom">
@@ -18,7 +17,7 @@
       <span @click="home" class="home img"></span>
       <span @click="exit" class="exit img"></span>
     </div>
-    <div class="menu-content">
+    <div class="menu-content"  ref="header-menu">
       <el-menu
         :default-active="activeIndex"
         :router="true"
@@ -28,13 +27,25 @@
         active-text-color="#ffffff"
         text-color="#BCE2FF"
       >
-        <template v-for="(item, index) of menuList">
-          <el-menu-item @click="routerClick(item)" :index="item.url" :key="String(index+'a')">{{item.name}}</el-menu-item>
+        <template v-if="!viceMenuShow">
+          <el-menu-item
+            v-for="(item, index) of menuList" 
+            @click="routerClick(item)" 
+            :index="item.url" 
+            :key="String(index+'a')"
+          >{{item.name}}</el-menu-item>
         </template>
+        <el-submenu v-else index="2">
+          <template slot="title">菜单</template>
+          <el-menu-item 
+            v-for="(item, index) of menuList" 
+            :index="item.url"
+            :key="index+'aads'"
+          >{{item.name}}</el-menu-item>          
+        </el-submenu>
       </el-menu>
     </div>
-
-  </el-row>
+  </div>
 </template>
 
 <script>
@@ -45,6 +56,9 @@ export default {
   data () {
     return {
       activeIndex: '/',
+      headerLeftWidth: 0,
+      headerRightWidth: 0,
+      viceMenuShow: false
     }
   },
   methods: {
@@ -74,12 +88,28 @@ export default {
     },
     home(){
       location.href = this.adminIP + 'wasc-admin/'
+    },
+    menuResize(){
+      let timer = null
+      this.headerLeftWidth = this.$refs['header-logo'].offsetWidth
+      this.headerRightWidth = this.$refs['header-admin'].offsetWidth
+      window.addEventListener('resize', () => {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          if(this.$refs['header'].offsetWidth<=this.headerLeftWidth+this.headerRightWidth+this.$refs['header-menu'].offsetWidth+1){
+            this.viceMenuShow = true
+          }else{
+            this.viceMenuShow = false
+          }
+        }, 500);
+      })
     }
   },
   mounted() {
     setTimeout(() => {
       this.setCurrentRoute()
     }, 1000)
+    this.menuResize()
   },
   props:{
     title: {
@@ -137,7 +167,6 @@ export default {
       .leftbg{
         position: relative;
         float: left;
-        // background: #0092BF;
         border-radius: 0 0 0 6px;
         padding-right: 4px;
         height: 100%;
@@ -159,13 +188,6 @@ export default {
           font-size: 21px;
           color: #ffffff;
         }
-      }
-      .bg-right{
-        height: 100%;
-        width: 30px;
-        float: left;
-        // background: url('../../assets/img/bg-right.png') no-repeat center;
-        background-size: 100% 100%;
       }
     }
     .menu-content{
@@ -204,6 +226,26 @@ export default {
           color: #ffffff!important;
         }
       }
+      /deep/ .el-submenu{
+        height: 100%;
+        .el-submenu__title{
+          height: 100%;
+          font-size: 16px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          line-height: initial;
+          border-bottom: 5px solid transparent!important;
+          &:hover{
+            background-color: transparent!important;
+            border-bottom: 5px solid #5FB878!important;
+            color: #ffffff!important;
+          }
+          i{
+            color: #ffffff;
+          }
+        }
+      }
     }
     span.img{
       height: 100%;
@@ -238,6 +280,19 @@ export default {
         float: left;
         height: 100%;
         padding: 0 5px;
+      }
+    }
+  }
+</style>
+<style lang="scss">
+  .el-menu--horizontal:not(.el-menu){
+    background: #009688!important;
+    .el-menu-item{
+      font-size: 16px;
+      border-left: 4px solid transparent!important;
+      &.is-active{
+        border-left: 4px solid #5FB878!important;
+        font-weight: 400;
       }
     }
   }
