@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Author       : 马识途
  * @Date         : 2020-04-07 16:39:32
- * @LastEditTime: 2020-04-29 16:27:30
+ * @LastEditTime: 2020-04-29 19:33:54
  * @FilePath     : \projecte:\codeFile\common-compenents\src\main.js
 */
 import MainHeader from './components/header/index.vue'
@@ -12,9 +12,17 @@ import ElDialogSelf from './components/dialog/index.vue'
 import ElTableSelf from './components/table/index.vue'
 import ElMenuVerticalSelf from './components/el-menu/index.vue'
 import FileContent from './components/fileContent/index'
+import MapRightAsider from './components/map-right-asider/index.vue'
 import msgSyncEventBus from './components/utils/eventBus'
 const components = [
-  MainHeader,TitleBar,ShadowContent,ElDialogSelf,ElTableSelf,ElMenuVerticalSelf,FileContent
+  MainHeader,
+  TitleBar,
+  ShadowContent,
+  ElDialogSelf,
+  ElTableSelf,
+  ElMenuVerticalSelf,
+  FileContent,
+  MapRightAsider
 ]
 /**
  * 绑定组件
@@ -42,6 +50,7 @@ export default {
   ElTableSelf,
   ElMenuVerticalSelf,
   FileContent,
+  MapRightAsider,
   msgSyncEventBus
 }
 
