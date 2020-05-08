@@ -69,18 +69,18 @@ export default {
           this.axios.get(this.adminIP + 'wasc-admin/logout')
         ]
       ).then(
-        axios.spread( (test1Res,test2Res) => {
+        axios.spread( (test1Res, test2Res) => {
           console.log(test1Res)
           console.log(test2Res)
           if(test1Res.status==200&&test2Res.status==200){
             location.reload(true)
           }else{
-            this.$message.error('退出失败，请重试')
+            // this.$message.error('退出失败，请重试')
           }
         })
       ).catch((error) => {
         console.log(error);
-        this.$message.error('退出失败，请重试')
+        // this.$message.error('退出失败，请重试')
       })
     },
     setCurrentRoute () {

@@ -2,8 +2,8 @@
  * @Descripttion : 
  * @Author       : 马识途
  * @Date         : 2020-04-13 16:26:09
- * @LastEditTime : 2020-04-29 15:22:32
- * @FilePath     : \project\hnswc-web\hnswc-ui-web\src\components\el-menu\index.vue
+ * @LastEditTime : 2020-05-07 13:13:29
+ * @FilePath     : \projecte:\codeFile\common-compenents\src\components\el-menu\index.vue
  -->
 <template>
   <el-menu
