@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Author       : 马识途
  * @Date         : 2020-04-13 16:26:09
- * @LastEditTime : 2020-05-07 13:13:29
+ * @LastEditTime : 2020-05-08 11:17:15
  * @FilePath     : \projecte:\codeFile\common-compenents\src\components\el-menu\index.vue
  -->
 <template>
@@ -14,7 +14,7 @@
     v-on="$listeners"
   > 
     <el-menu-item class="disabled" disabled index="no">
-      <i @click="isCollapse=!isCollapse" class="el-icon-menu"></i>
+      <i @click="collapse" class="el-icon-menu"></i>
       <span slot="title" class="title">点击展开</span>
     </el-menu-item>
     <slot></slot>
@@ -33,7 +33,10 @@ export default {
     }
   },
   methods: {
-    
+    collapse(){
+      this.isCollapse=!this.isCollapse
+      this.$emit('collapse',this.isCollapse)
+    }
   },
   mounted() {
     
