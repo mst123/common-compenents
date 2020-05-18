@@ -9,13 +9,19 @@
       </div>
     </div>
     <div class="admin-content" ref="header-admin">
+      <slot name="one"></slot>
       <HeaderMessage/>
+      <slot name="two"></slot>
       <span class="help img"></span>
+      <slot name="three"></slot>
       <el-tooltip class="item" effect="dark" :content="'欢迎您：' + userName" placement="bottom">
         <span class="admin img"></span>
       </el-tooltip>
+      <slot name="four"></slot>
       <span @click="home" class="home img"></span>
+      <slot name="five"></slot>
       <span @click="exit" class="exit img"></span>
+      <slot name="six"></slot>
     </div>
     <div class="menu-content"  ref="header-menu">
       <el-menu
@@ -82,6 +88,7 @@ export default {
         console.log(error);
         // this.$message.error('退出失败，请重试')
       })
+      this.beforeExit()
     },
     setCurrentRoute () {
       this.activeIndex = '/' + this.$route.path.split('/')[1]
@@ -101,7 +108,7 @@ export default {
           }else{
             this.viceMenuShow = false
           }
-        }, 500);
+        }, 400);
       })
     }
   },
@@ -135,6 +142,14 @@ export default {
       required: true,
     },
     routerClick: {
+      type: Function,
+      default: function () {
+        return function(){
+
+        }
+      }
+    },
+    beforeExit: {
       type: Function,
       default: function () {
         return function(){
