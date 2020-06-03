@@ -115,7 +115,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.setCurrentRoute()
-    }, 1000)
+    }, 500)
     this.menuResize()
   },
   props:{
