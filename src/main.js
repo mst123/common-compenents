@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Author       : 马识途
  * @Date         : 2020-04-07 16:39:32
- * @LastEditTime : 2020-05-13 13:18:33
+ * @LastEditTime : 2020-06-05 14:58:11
  * @FilePath     : \projecte:\codeFile\common-compenents\src\main.js
 */
 import MainHeader from './components/header/index.vue'
@@ -15,6 +15,7 @@ import FileContent from './components/fileContent/index'
 import MapRightAsider from './components/map-right-asider/index.vue'
 import msgSyncEventBus from './components/utils/eventBus'
 import MapTools from './components/mapTool/index.vue';
+import Upload from './components/upload/index.vue';
 const components = [
   MainHeader,
   TitleBar,
@@ -24,7 +25,8 @@ const components = [
   ElMenuVerticalSelf,
   FileContent,
   MapRightAsider,
-  MapTools
+  MapTools,
+  Upload
 ]
 /**
  * 绑定组件
