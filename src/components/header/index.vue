@@ -82,9 +82,12 @@ export default {
             location.reload(true)
           }else{
             // this.$message.error('退出失败，请重试')
+            
           }
+          location.reload(true)
         })
       ).catch((error) => {
+        location.reload(true)
         console.log(error);
         // this.$message.error('退出失败，请重试')
       })

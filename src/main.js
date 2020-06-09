@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Author       : 马识途
  * @Date         : 2020-04-07 16:39:32
- * @LastEditTime : 2020-06-05 14:58:11
+ * @LastEditTime : 2020-06-08 19:48:37
  * @FilePath     : \projecte:\codeFile\common-compenents\src\main.js
 */
 import MainHeader from './components/header/index.vue'
@@ -16,6 +16,7 @@ import MapRightAsider from './components/map-right-asider/index.vue'
 import msgSyncEventBus from './components/utils/eventBus'
 import MapTools from './components/mapTool/index.vue';
 import Upload from './components/upload/index.vue';
+import './assets/font/iconfont.css'
 const components = [
   MainHeader,
   TitleBar,

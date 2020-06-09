@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Author       : 马识途
  * @Date         : 2020-04-21 10:39:37
- * @LastEditTime : 2020-04-28 19:12:10
+ * @LastEditTime : 2020-06-08 15:04:22
  * @FilePath     : \projecte:\codeFile\common-compenents\src\components\shadow-content\index.vue
  -->
 <template>
@@ -74,5 +74,20 @@ export default {
     .el-tabs__item.is-active{
       font-weight: bold;
     }
+  }
+  ::-webkit-scrollbar-track-piece {
+    background-color: #f8f8f8;
+  }
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 9px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #dddddd;
+    background-clip: padding-box;
+    min-height: 28px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color:#bbb;
   }
 </style>
