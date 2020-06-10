@@ -214,11 +214,10 @@ export default {
   .float-box {
     width: 340px;
     height: 228px;
-
     position: absolute;
     top: 40px;
     left: -150px;
-    z-index: 2;
+    z-index: 999;
     .sanjiao-content {
       height: 18px;
       .sanjiao {
@@ -307,7 +306,7 @@ export default {
 }
 .messageNotice {
   width: 100%;
-  height: 24px;
+  max-height: 240px;
   line-height: 24px;
 }
 </style>

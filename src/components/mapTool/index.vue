@@ -2,7 +2,7 @@
  * @Descripttion :
  * @Author       : 马识途
  * @Date         : 2020-05-07 11:14:58
- * @LastEditTime : 2020-06-09 14:15:46
+ * @LastEditTime : 2020-06-10 09:38:19
  * @FilePath     : \projecte:\codeFile\common-compenents\src\components\mapTool\index.vue
  -->
 <template>
@@ -51,35 +51,30 @@ export default {
           id: "tdt-img", //tdt-img影像  self-vec矢量 sbz_dx地形图 sbz_wx卫星图 sbz_zq政区图 sbz_ly流域图
           title: "影像",
           url: "http://139.9.125.12:7070/DataServer?T=img_w&x={col}&y={row}&l={level}",
-          imgUrl: require('../../assets/img/mapTools/影像.png'),
+          boundUrl: this.arcgisServerIP + '/arcgis/rest/services/henan/行政区划_浮雕边界_影像用/MapServer',
         },
         {
           id: "self-vec",
           title: "矢量",
-          restUrl: "http://10.1.100.73:7070/arcgis/rest/services/henan/行政区划2/MapServer",
-          imgUrl: require('../../assets/img/mapTools/矢量.png'),
+          restUrl: this.arcgisServerIP + "/arcgis/rest/services/henan/行政区划2/MapServer",
         },
         {
           filter: 'basemap:2:0,basemap:5:0,basemap:7_0:0',
-          imgUrl: require('../../assets/img/mapTools/dixing1_1.png'),
           title: '地形图',
           id: 'sbz_dx'
         },
         {
           filter: 'basemap:0:0,basemap:1_1:0,basemap:7_1:0',
-          imgUrl: require('../../assets/img/mapTools/wx3_1.png'),
           title: '卫星图',
           id: 'sbz_wx'
         },
         {
           filter: 'basemap:4:0,basemap:7_0:0',
-          imgUrl: require('../../assets/img/mapTools/zq1_1.png'),
           title: '政区图',
           id: 'sbz_zq'
         },
         {
           filter: 'basemap:3:0,basemap:7_0:0',
-          imgUrl: require('../../assets/img/mapTools/ly_1.png'),
           title: '流域图',
           id: 'sbz_ly'
         }
@@ -124,6 +119,10 @@ export default {
     activeLayerId: {
       type: String,
       default: 'tdt-img'
+    },
+    arcgisServerIP: {
+      type: String,
+      default: 'http://10.1.100.73:7070'
     }
   },
   methods: {
@@ -148,8 +147,15 @@ export default {
       this.map.findLayerById(id).visible = visible
     },
     baseLayerChange(index){ //基础图层切换
+      if(this.baseLayerList[this.baseLayerActiveIndex].id=='tdt-img'){
+        this.layerControl(this.baseLayerList[this.baseLayerActiveIndex].id+'bound', false)
+      }
       this.layerControl(this.baseLayerList[this.baseLayerActiveIndex].id, false)
+      if(this.baseLayerList[index].id=='tdt-img'){
+        this.layerControl(this.baseLayerList[index].id+'bound', true)
+      }
       this.layerControl(this.baseLayerList[index].id, true)
+      
       this.baseLayerActiveIndex = index
     },
     BaseLayerAdd(){ //底图添加 包括普通环境和水保站环境
@@ -175,6 +181,14 @@ export default {
                 subDomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"]
               }
             )
+            let boundLayer = new MapImageLayer(
+              item.boundUrl,
+              {
+                id: item.id + 'bound',
+                visible: item.id==this.activeLayerId?true:false,
+              }
+            )
+            this.map.add(boundLayer, 0)
           }else if(item.restUrl){
             baseMapLayer = new MapImageLayer(
               item.restUrl,
@@ -184,10 +198,7 @@ export default {
               }
             )
           }
-          this.map.add(baseMapLayer)
-          if(item.visible){
-            this.baseLayerActiveIndex = index
-          }
+          this.map.add(baseMapLayer, 0)
         })
       })
       .catch(err => {
