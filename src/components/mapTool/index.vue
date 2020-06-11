@@ -2,7 +2,7 @@
  * @Descripttion :
  * @Author       : 马识途
  * @Date         : 2020-05-07 11:14:58
- * @LastEditTime : 2020-06-10 09:38:19
+ * @LastEditTime : 2020-06-11 10:46:01
  * @FilePath     : \projecte:\codeFile\common-compenents\src\components\mapTool\index.vue
  -->
 <template>
@@ -12,9 +12,15 @@
       :class="[isVertical?'vertical':'horizontal']"
       :style="positionStyle"
     >
-      <i class="_icon el-icon-zoom-in" @click="zoomIn"></i>
-      <i class="_icon el-icon-zoom-out" @click="zoomOut"></i>
-      <i class="_icon iconfont icon-home" @click="home"></i>
+      <el-tooltip class="item" effect="dark" content="放大" placement="right">
+        <i class="_icon el-icon-zoom-in" @click="zoomIn"></i>
+      </el-tooltip>
+      <el-tooltip class="item" effect="dark" content="缩小" placement="right">
+        <i class="_icon el-icon-zoom-out" @click="zoomOut"></i>
+      </el-tooltip>
+      <el-tooltip class="item" effect="dark" content="全图" placement="right">
+        <i class="_icon iconfont icon-home" @click="home"></i>
+      </el-tooltip>
       <el-popover
         popper-class="baseLayer-change"
         :placement="isVertical?'right':'bottom'"
@@ -32,7 +38,9 @@
             <p class="title">{{item.title}}</p>
           </div>
         </div>
-        <i class="_icon iconfont icon-tucengqiehuan" slot="reference"></i>
+        <el-tooltip class="item" effect="dark" slot="reference" content="底图切换" placement="right">
+          <i class="_icon iconfont icon-tucengqiehuan" ></i>
+        </el-tooltip>
       </el-popover>
 
     </div>
@@ -48,35 +56,35 @@ export default {
       activeZoom: false,
       baseLayerList: [
         {
-          id: "tdt-img", //tdt-img影像  self-vec矢量 sbz_dx地形图 sbz_wx卫星图 sbz_zq政区图 sbz_ly流域图
+          id: "npm-tdt-img", //tdt-img影像  self-vec矢量 sbz_dx地形图 sbz_wx卫星图 sbz_zq政区图 sbz_ly流域图
           title: "影像",
           url: "http://139.9.125.12:7070/DataServer?T=img_w&x={col}&y={row}&l={level}",
           boundUrl: this.arcgisServerIP + '/arcgis/rest/services/henan/行政区划_浮雕边界_影像用/MapServer',
         },
         {
-          id: "self-vec",
+          id: "npm-self-vec",
           title: "矢量",
           restUrl: this.arcgisServerIP + "/arcgis/rest/services/henan/行政区划2/MapServer",
         },
         {
           filter: 'basemap:2:0,basemap:5:0,basemap:7_0:0',
           title: '地形图',
-          id: 'sbz_dx'
+          id: 'npm-sbz_dx'
         },
         {
           filter: 'basemap:0:0,basemap:1_1:0,basemap:7_1:0',
           title: '卫星图',
-          id: 'sbz_wx'
+          id: 'npm-sbz_wx'
         },
         {
           filter: 'basemap:4:0,basemap:7_0:0',
           title: '政区图',
-          id: 'sbz_zq'
+          id: 'npm-sbz_zq'
         },
         {
           filter: 'basemap:3:0,basemap:7_0:0',
           title: '流域图',
-          id: 'sbz_ly'
+          id: 'npm-sbz_ly'
         }
       ],
       baseLayerActiveIndex: 0, //当前显示的底图序号
@@ -100,27 +108,28 @@ export default {
       default: function () {
         return {
           zoom: 7,
-          center: [113.65, 34.76667]
+          center: [114.65, 33.9]
         }
       }
     },
-    left: {
+    left: { //position定位
       type: String,
       default: '20px'
     },
-    top: {
+    top: { //position定位
       type: String,
       default: '20px'
     },
-    isVertical: {
+    isVertical: { //水平模式或者垂直模式
       type: Boolean,
       default: true
     },
-    activeLayerId: {
+    activeLayerId: { //默认激活图层的id
       type: String,
-      default: 'tdt-img'
+      default: 'npm-tdt-img'
+      //npm-tdt-img影像  npm-self-vec矢量 npm-sbz_dx地形图 npm-sbz_wx卫星图 npm-sbz_zq政区图 npm-sbz_ly流域图
     },
-    arcgisServerIP: {
+    arcgisServerIP: { //rest地图服务地址
       type: String,
       default: 'http://10.1.100.73:7070'
     }
@@ -147,12 +156,12 @@ export default {
       this.map.findLayerById(id).visible = visible
     },
     baseLayerChange(index){ //基础图层切换
-      if(this.baseLayerList[this.baseLayerActiveIndex].id=='tdt-img'){
-        this.layerControl(this.baseLayerList[this.baseLayerActiveIndex].id+'bound', false)
+      if(this.baseLayerList[this.baseLayerActiveIndex].id=='npm-tdt-img'){
+        this.layerControl(this.baseLayerList[this.baseLayerActiveIndex].id+'-bound', false)
       }
       this.layerControl(this.baseLayerList[this.baseLayerActiveIndex].id, false)
-      if(this.baseLayerList[index].id=='tdt-img'){
-        this.layerControl(this.baseLayerList[index].id+'bound', true)
+      if(this.baseLayerList[index].id=='npm-tdt-img'){
+        this.layerControl(this.baseLayerList[index].id+'-bound', true)
       }
       this.layerControl(this.baseLayerList[index].id, true)
       
@@ -184,7 +193,7 @@ export default {
             let boundLayer = new MapImageLayer(
               item.boundUrl,
               {
-                id: item.id + 'bound',
+                id: item.id + '-bound',
                 visible: item.id==this.activeLayerId?true:false,
               }
             )

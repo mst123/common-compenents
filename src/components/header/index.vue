@@ -12,15 +12,21 @@
       <slot name="one"></slot>
       <HeaderMessage/>
       <slot name="two"></slot>
-      <span class="help img"></span>
+      <el-tooltip class="item" effect="dark" content="帮助" placement="bottom">
+        <span class="help img"></span>
+      </el-tooltip>
       <slot name="three"></slot>
       <el-tooltip class="item" effect="dark" :content="'欢迎您：' + userName" placement="bottom">
         <span class="admin img"></span>
       </el-tooltip>
       <slot name="four"></slot>
-      <span @click="home" class="home img"></span>
+      <el-tooltip class="item" effect="dark" content="返回系统平台" placement="bottom">
+        <span @click="home" class="home img"></span>
+      </el-tooltip>
       <slot name="five"></slot>
-      <span @click="exit" class="exit img"></span>
+      <el-tooltip class="item" effect="dark" content="退出" placement="bottom">
+        <span @click="exit" class="exit img"></span>
+      </el-tooltip>
       <slot name="six"></slot>
     </div>
     <div class="menu-content"  ref="header-menu">
