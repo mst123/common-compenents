@@ -2,22 +2,25 @@
  * @Descripttion : 
  * @Author       : 马识途
  * @Date         : 2020-04-13 16:26:09
- * @LastEditTime : 2020-06-03 11:10:45
+ * @LastEditTime : 2020-06-12 15:43:57
  * @FilePath     : \projecte:\codeFile\common-compenents\src\components\el-menu\index.vue
  -->
 <template>
-  <el-menu
-    class="el-menu-vertical"
-    :style="varStyle"
-    v-bind="computedProp"
-    v-on="$listeners"
-  > 
-    <el-menu-item class="disabled" disabled index="no">
+  <div class="menu-content">
+    <div class="collapse">
       <div @click="collapse" title="隐藏" v-if="!isCollapse" class="el-icon-menu-close"></div>
       <div @click="collapse" title="显示" v-else class="el-icon-menu-open"></div>
-    </el-menu-item>
-    <slot></slot>
-  </el-menu>
+    </div>
+    <el-menu
+      class="el-menu-vertical"
+      :style="varStyle"
+      v-bind="computedProp"
+      v-on="$listeners"
+    > 
+      <slot></slot>
+    </el-menu>
+  </div>
+  
 </template>
 
 <script> 
@@ -73,9 +76,38 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
   $fontSize: 16px;
+  .menu-content{
+    height: 100%;
+    .collapse{
+      height: 30px;
+      width: 100%;
+      .el-icon-menu-close{
+        color: #909399;
+        cursor: pointer;
+        background: url(../../assets/icons/menuClose.svg) no-repeat center/contain;
+        display: block;
+        height: 20px;
+        width: 20px;
+        float: left;
+        margin: 5px 0 0 23px;
+      }
+      .el-icon-menu-open{
+        color: #909399;
+        cursor: pointer;
+        background: url(../../assets/icons/menuOpen.svg) no-repeat center/contain;
+        display: block;
+        height: 20px;
+        width: 20px;
+        float: left;
+        margin: 5px 0 0 23px;
+      }
+    }
+  }
   .el-menu-vertical{
     border-right: 0;
-    height: 100%;
+    height: calc(100% - 40px);
+    overflow-x: hidden;
+    overflow-y: auto;
     background-color: #E5EFF1; 
     &:not(.el-menu--collapse){
       width: var(--width);
@@ -96,29 +128,6 @@ export default {
       padding: 0 20px;
       font-size: $fontSize;
       text-align: left;
-    }
-    /deep/ .disabled{
-      color: #000000;
-      cursor: inherit;
-      .title{
-        color: transparent!important;
-      }
-      .el-icon-menu-close{
-        color: #000000;
-        cursor: pointer;
-        background: url(../../assets/icons/menuClose.svg) no-repeat center/contain;
-        display: inline-block;
-        height: 20px;
-        width: 20px;
-      }
-      .el-icon-menu-open{
-        color: #000000;
-        cursor: pointer;
-        background: url(../../assets/icons/menuOpen.svg) no-repeat center/contain;
-        display: inline-block;
-        height: 20px;
-        width: 20px;
-      }
     }
   }
 </style>

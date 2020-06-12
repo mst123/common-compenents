@@ -53,6 +53,7 @@
     <el-dialog-self
       title="消息提醒"
       :visible.sync="dialogMessage"
+      v-if="dialogMessage"
       :close-on-click-modal="false"
       width="800px"
       append-to-body
