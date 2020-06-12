@@ -31,7 +31,7 @@
     </div>
     <div class="menu-content"  ref="header-menu">
       <el-menu
-        :default-active="activeIndex"
+        :default-active="'/' + $route.path.split('/')[1]"
         :router="true"
         class="el-menu"
         mode="horizontal"
@@ -88,7 +88,6 @@ export default {
             location.reload(true)
           }else{
             // this.$message.error('退出失败，请重试')
-            
           }
           location.reload(true)
         })
@@ -98,9 +97,6 @@ export default {
         // this.$message.error('退出失败，请重试')
       })
       this.beforeExit()
-    },
-    setCurrentRoute () {
-      this.activeIndex = '/' + this.$route.path.split('/')[1]
     },
     home(){
       location.href = this.adminIP + 'wasc-admin/'
@@ -119,12 +115,14 @@ export default {
           }
         }, 400);
       })
+      if(this.$refs['header'].offsetWidth<=this.headerLeftWidth+this.headerRightWidth+this.$refs['header-menu'].offsetWidth+1){
+        this.viceMenuShow = true
+      }else{
+        this.viceMenuShow = false
+      }
     }
   },
   mounted() {
-    setTimeout(() => {
-      this.setCurrentRoute()
-    }, 500)
     this.menuResize()
   },
   props:{
@@ -184,6 +182,7 @@ export default {
   .m-header{
     height: 100%;
     background: #009688;
+    z-index: 9999;
     .logo-box{
       position: relative;
       float: left;
