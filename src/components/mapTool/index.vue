@@ -2,7 +2,7 @@
  * @Descripttion :
  * @Author       : 马识途
  * @Date         : 2020-05-07 11:14:58
- * @LastEditTime : 2020-06-11 10:46:01
+ * @LastEditTime : 2020-06-17 15:05:39
  * @FilePath     : \projecte:\codeFile\common-compenents\src\components\mapTool\index.vue
  -->
 <template>
@@ -11,20 +11,23 @@
       class="origin-tool"
       :class="[isVertical?'vertical':'horizontal']"
       :style="positionStyle"
-    >
-      <el-tooltip class="item" effect="dark" content="放大" placement="right">
+    > 
+      <slot name="first">
+
+      </slot>
+      <el-tooltip class="item" effect="dark" content="放大" :placement="isVertical?'right':'bottom'">
         <i class="_icon el-icon-zoom-in" @click="zoomIn"></i>
       </el-tooltip>
-      <el-tooltip class="item" effect="dark" content="缩小" placement="right">
+      <el-tooltip class="item" effect="dark" content="缩小" :placement="isVertical?'right':'bottom'">
         <i class="_icon el-icon-zoom-out" @click="zoomOut"></i>
       </el-tooltip>
-      <el-tooltip class="item" effect="dark" content="全图" placement="right">
+      <el-tooltip class="item" effect="dark" content="全图" :placement="isVertical?'right':'bottom'">
         <i class="_icon iconfont icon-home" @click="home"></i>
       </el-tooltip>
       <el-popover
         popper-class="baseLayer-change"
         :placement="isVertical?'right':'bottom'"
-        trigger="click"
+        trigger="hover"
       >
         <div class="layer-change-content">
           <div
@@ -38,11 +41,11 @@
             <p class="title">{{item.title}}</p>
           </div>
         </div>
-        <el-tooltip class="item" effect="dark" slot="reference" content="底图切换" placement="right">
-          <i class="_icon iconfont icon-tucengqiehuan" ></i>
-        </el-tooltip>
+        <i class="_icon iconfont icon-ditu" slot="reference"></i>
       </el-popover>
+      <slot name="last">
 
+      </slot>
     </div>
   </div>
 </template>
@@ -59,12 +62,13 @@ export default {
           id: "npm-tdt-img", //tdt-img影像  self-vec矢量 sbz_dx地形图 sbz_wx卫星图 sbz_zq政区图 sbz_ly流域图
           title: "影像",
           url: "http://139.9.125.12:7070/DataServer?T=img_w&x={col}&y={row}&l={level}",
-          boundUrl: this.arcgisServerIP + '/arcgis/rest/services/henan/行政区划_浮雕边界_影像用/MapServer',
+          boundUrl: this.arcgisServerIP + 'arcgis/rest/services/henan/行政区划_浮雕边界_影像用/MapServer',
+          shadowUrl: this.arcgisServerIP + 'arcgis/rest/services/HeNanClicp/MapServer',
         },
         {
           id: "npm-self-vec",
           title: "矢量",
-          restUrl: this.arcgisServerIP + "/arcgis/rest/services/henan/行政区划2/MapServer",
+          restUrl: this.arcgisServerIP + "arcgis/rest/services/henan/行政区划2/MapServer",
         },
         {
           filter: 'basemap:2:0,basemap:5:0,basemap:7_0:0',
@@ -131,7 +135,8 @@ export default {
     },
     arcgisServerIP: { //rest地图服务地址
       type: String,
-      default: 'http://10.1.100.73:7070'
+      default: 'http://10.1.100.73:7070',
+      required: true
     }
   },
   methods: {
@@ -158,10 +163,12 @@ export default {
     baseLayerChange(index){ //基础图层切换
       if(this.baseLayerList[this.baseLayerActiveIndex].id=='npm-tdt-img'){
         this.layerControl(this.baseLayerList[this.baseLayerActiveIndex].id+'-bound', false)
+        this.layerControl(this.baseLayerList[this.baseLayerActiveIndex].id+'-shadow', false)
       }
       this.layerControl(this.baseLayerList[this.baseLayerActiveIndex].id, false)
       if(this.baseLayerList[index].id=='npm-tdt-img'){
         this.layerControl(this.baseLayerList[index].id+'-bound', true)
+        this.layerControl(this.baseLayerList[index].id+'-shadow', true)
       }
       this.layerControl(this.baseLayerList[index].id, true)
       
@@ -198,6 +205,14 @@ export default {
               }
             )
             this.map.add(boundLayer, 0)
+            let shadowLayer = new MapImageLayer(
+              item.shadowUrl,{
+                id: item.id + '-shadow',
+                opacity: 0.4,
+                visible: item.id==this.activeLayerId?true:false,
+              }
+            )
+            this.map.add(shadowLayer, 10)
           }else if(item.restUrl){
             baseMapLayer = new MapImageLayer(
               item.restUrl,
@@ -246,13 +261,13 @@ export default {
       align-items: center;
       &.vertical{
         flex-flow: column;
-        height: 200px;
+        min-height: 200px;
         width: 50px;
       }
       &.horizontal{
         flex-flow: row;
         height: 50px;
-        width: 200px;
+        min-width: 200px;
       }
     }
     &>div i._icon{
@@ -266,6 +281,7 @@ export default {
       background:  rgba(8,8,8,0.5);
       text-align: center;
       line-height: 40px;
+      margin: 5px;
       &.active{
         background: #009688;
       }
@@ -293,12 +309,12 @@ export default {
       display: flex;
       flex-flow: row wrap;
       max-width: 230px;
-      height: 150px;
+      height: 130px;
       justify-content: space-between;
       align-content: space-between;
       .layer-item{
         width: 70px;
-        height: 70px;
+        height: 60px;
         position: relative;
         box-sizing: border-box;
         border-width: 2px;
@@ -328,9 +344,9 @@ export default {
           background: url('../../assets/img/mapTools/ly_1.png') no-repeat center / cover;
         }
         &.active{
-          border-color: #d37adf;
+          border-color: #009688;
           .title{
-            color: #d37adf;
+            color: #009688;
           }
         }
         .title{

@@ -209,6 +209,7 @@ export default {
           align-items: center;
           float: left;
           font-size: 21px;
+          font-weight: bold;
           color: #ffffff;
         }
       }
@@ -239,14 +240,14 @@ export default {
         box-sizing: border-box;
         border-bottom: 5px solid transparent;
         background-color: transparent!important;
+        color: #ffffff!important;
         &.is-active{
-          border-bottom: 5px solid #5FB878!important;
-          font-weight: 400;
+          border-bottom: 5px solid #ffffff!important;
+          font-weight: 900;
         }
         &:hover{
           background-color: transparent!important;
-          border-bottom: 5px solid #5FB878!important;
-          color: #ffffff!important;
+          border-bottom: 5px solid #ffffff!important;
         }
       }
       /deep/ .el-submenu{
@@ -261,7 +262,7 @@ export default {
           border-bottom: 5px solid transparent!important;
           &:hover{
             background-color: transparent!important;
-            border-bottom: 5px solid #5FB878!important;
+            border-bottom: 5px solid #ffffff!important;
             color: #ffffff!important;
           }
           i{
@@ -313,9 +314,14 @@ export default {
     .el-menu-item{
       font-size: 16px;
       border-left: 4px solid transparent!important;
+      color: #ffffff!important;
       &.is-active{
-        border-left: 4px solid #5FB878!important;
-        font-weight: 400;
+        border-left: 4px solid #ffffff!important;
+        font-weight: 900;
+      }
+      &:hover{
+        background-color: transparent!important;
+        border-left: 4px solid #ffffff!important;
       }
     }
   }

@@ -2,7 +2,7 @@
  * @Descripttion : 
  * @Author       : 马识途
  * @Date         : 2020-04-21 10:39:37
- * @LastEditTime : 2020-06-08 15:04:22
+ * @LastEditTime : 2020-06-17 18:28:42
  * @FilePath     : \projecte:\codeFile\common-compenents\src\components\shadow-content\index.vue
  -->
 <template>
@@ -79,8 +79,8 @@ export default {
     background-color: #f8f8f8;
   }
   ::-webkit-scrollbar {
-    width: 4px;
-    height: 9px;
+    width: 15px;
+    height: 15px;
   }
   ::-webkit-scrollbar-thumb {
     background-color: #dddddd;

@@ -2,7 +2,7 @@
   <div class="file-content">
     <div class="file-item" v-for="(item, index) of fileList" :key="index">
       <span :title="item.fileName" class="text" @click="previewFile(item.fileId)">{{item.fileName}}</span>
-      <i class="el-tag__close el-icon-close" @click="deleteFile(index)"></i>
+      <i :disabled="disabled" class="el-tag__close el-icon-close" @click="deleteFile(index)"></i>
     </div>
   </div>
 </template>
@@ -36,6 +36,10 @@ export default {
       type: Array,
       required: true
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
   created () {
     
