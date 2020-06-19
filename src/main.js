@@ -16,6 +16,9 @@ import MapRightAsider from './components/map-right-asider/index.vue'
 import msgSyncEventBus from './components/utils/eventBus'
 import MapTools from './components/mapTool/index.vue';
 import Upload from './components/upload/index.vue';
+import LeftTopProup from './components/leftTopProup/index.vue';
+import MapLegend from './components/map-legend/index.vue';
+import EchartBox from './components/echart-box/index.vue';
 import './assets/font/iconfont.css'
 const components = [
   MainHeader,
@@ -27,7 +30,10 @@ const components = [
   FileContent,
   MapRightAsider,
   MapTools,
-  Upload
+  Upload,
+  LeftTopProup,
+  MapLegend,
+  EchartBox
 ]
 /**
  * 绑定组件

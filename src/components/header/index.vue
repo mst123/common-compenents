@@ -12,9 +12,28 @@
       <slot name="one"></slot>
       <HeaderMessage/>
       <slot name="two"></slot>
-      <el-tooltip class="item" effect="dark" content="帮助" placement="bottom">
-        <span class="help img"></span>
-      </el-tooltip>
+      <el-popover
+        placement="bottom"
+        width="100"
+        trigger="hover"
+        popper-class="header-help"
+      > 
+        <div class="list">
+          <span class="icon-content">
+            <i class="el-icon-document"></i>
+          </span>
+          <span @click="openDocument" class="text">用户手册</span>
+        </div>
+        <div class="list">
+          <span class="icon-content">
+            <i class="el-icon-warning"></i>
+          </span>
+          <el-tooltip class="item" effect="light" :content="version" placement="right">
+            <span class="text">版本号</span>
+          </el-tooltip>
+        </div>
+        <span class="help img" slot="reference"></span>
+      </el-popover>
       <slot name="three"></slot>
       <el-tooltip class="item" effect="dark" :content="'欢迎您：' + userName" placement="bottom">
         <span class="admin img"></span>
@@ -120,6 +139,9 @@ export default {
       }else{
         this.viceMenuShow = false
       }
+    },
+    openDocument(){
+      window.open(this.documentUrl)
     }
   },
   mounted() {
@@ -147,6 +169,14 @@ export default {
     adminIP: {
       type: String,
       required: true,
+    },
+    version: {
+      type: String,
+      default: 'v.1.0.0',
+    },
+    documentUrl: {
+      type: String,
+      default: '',
     },
     routerClick: {
       type: Function,
@@ -323,6 +353,35 @@ export default {
         background-color: transparent!important;
         border-left: 4px solid #ffffff!important;
       }
+    }
+  }
+  .header-help{
+    min-width: 100px!important;
+    .list{
+      width: 100%;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      box-sizing: border-box;
+      color: #009688;
+    }
+    span.icon-content{
+      height: 30px;
+      line-height: 30px;
+      width: 30px;
+      float: left;
+      i{
+        font-size: 20px;
+        line-height: 30px;
+        display: inline-block;
+      }
+    }
+    span.text{
+      float: right;
+      height: 30px;
+      width: 70px;
+      line-height: 30px;
+      cursor: pointer;
     }
   }
 </style>

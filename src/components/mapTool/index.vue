@@ -2,7 +2,7 @@
  * @Descripttion :
  * @Author       : 马识途
  * @Date         : 2020-05-07 11:14:58
- * @LastEditTime : 2020-06-17 15:05:39
+ * @LastEditTime : 2020-06-18 20:24:21
  * @FilePath     : \projecte:\codeFile\common-compenents\src\components\mapTool\index.vue
  -->
 <template>
@@ -135,7 +135,7 @@ export default {
     },
     arcgisServerIP: { //rest地图服务地址
       type: String,
-      default: 'http://10.1.100.73:7070',
+   
       required: true
     }
   },
