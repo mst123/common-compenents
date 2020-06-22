@@ -1,19 +1,17 @@
 <template>
   <div :style="style" class="tuli" >
-    <div v-if="isShow" class="title">
-        {{title}}
-        <el-tooltip class="item" effect="dark" content="隐藏" placement="top">
-          <i @click="toggle" class="el-icon-remove"></i>
-        </el-tooltip>
-    </div>
-    <el-tooltip v-else class="item" effect="dark" content="显示" placement="top">
+    <el-tooltip v-if="!isShow" class="item" effect="dark" content="显示" placement="top">
       <div @click="toggle" class="title">
         {{title}}
       </div>
     </el-tooltip>
-    <slot v-if="isShow">
-
-    </slot>
+    <div v-if="isShow" class="title">
+      {{title}}
+      <el-tooltip class="item" effect="dark" content="隐藏" placement="top">
+        <i @click="toggle" class="el-icon-remove"></i>
+      </el-tooltip>
+    </div>
+    <slot v-if="isShow"></slot>
   </div>
 </template>
 <script>
@@ -27,6 +25,11 @@ export default {
   },
   mounted(){  //组件挂在到dom树上之后
     this.isShow = this.initialStatus
+    if(this.initialStatus){
+      setTimeout(() => {
+        this.isShow = false
+      }, 2000)
+    }
   },
   methods:{  //方法
     toggle(){
@@ -61,7 +64,7 @@ export default {
         left: this.left,
         bottom: this.bottom
       }
-      
+
     }
   },
 }
@@ -74,7 +77,8 @@ export default {
   color: rgb(255, 255, 255);
   position: absolute;
   border-radius: 5px;
-  background:rgba(8, 8, 8, 0.5);
+  font-size: 15px;
+  background:rgba(8, 8, 8, 0.7);
   z-index: 33;
   color:#fff;
   .title{

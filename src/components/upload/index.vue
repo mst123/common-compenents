@@ -25,7 +25,7 @@
             <el-input style="width:480px;" v-model="uploadfile.fileName" v-if="fileList.length == 0" />
           </el-form-item>
           <el-form-item :id="picker">
-            <el-button style="margin-left:5px" type="success"  class="IDpiker" plain >
+            <el-button style="margin-left:5px;color:#ffffff;" type="primary"  class="IDpiker" plain >
               添 加
             </el-button>
           </el-form-item>
@@ -636,5 +636,9 @@ export default {
     height: 35px !important;
   }
 }
-
+</style>
+<style lang="scss">
+  .el-button.IDpiker{
+    color: white;
+  }
 </style>

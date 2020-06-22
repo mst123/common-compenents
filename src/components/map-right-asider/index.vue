@@ -67,10 +67,10 @@ export default {
   .toggleBtn {
     display: block;
     height: 80px;
-    width: 24px;
+    width: 20px;
     position: absolute;
     top: 50%;
-    left: -24px;
+    left: -20px;
     margin-top: -40px;
     font-size: 24px;
     text-align: center;
@@ -78,7 +78,7 @@ export default {
     color: #ffffff;
     box-sizing: border-box;
     border-radius: 6px 0 0 6px;
-    background: rgba(8, 8, 8, 0.5);
+    background: rgba(8, 8, 8, 0.7);
     cursor: pointer;
     z-index: 5;
   }

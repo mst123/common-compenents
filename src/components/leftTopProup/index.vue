@@ -10,15 +10,16 @@
 </template>
 
 <script>
+let eleResizeListen = require('element-resize-detector')
 export default {
   name: "LeftTopProup",
   data() {
     return {
       isShow: true,
       varStyle: {
-        "--width": this.width,
-        "--left": this.left,
-        top: this.top
+        "--width": '',
+        "--left": '',
+        top: ''
       },
       tooltipContent: ''
     };
@@ -27,7 +28,7 @@ export default {
 
   },
   mounted() {
-    console.log(this.$refs['proup'].offsetWidth);
+    let listen = eleResizeListen();
     this.varStyle = {
       "--width": '-' + this.$refs['proup'].offsetWidth + 'px',
       "--left": this.left,
@@ -35,6 +36,9 @@ export default {
     }
     this.isShow = this.initialStatus
     this.tooltipContent = this.isShow?'隐藏':'显示'
+    listen.listenTo(this.$refs['proup'], (element) => {
+      this.varStyle['--width'] = '-' + this.$refs['proup'].offsetWidth + 'px'
+    })
   },
   methods: {
     toggle(){

@@ -28,9 +28,10 @@
           <span class="icon-content">
             <i class="el-icon-warning"></i>
           </span>
-          <el-tooltip class="item" effect="light" :content="version" placement="right">
+          <el-tooltip class="item" effect="dark" :offset="7" :content="version" placement="right">
             <span class="text">版本号</span>
           </el-tooltip>
+          
         </div>
         <span class="help img" slot="reference"></span>
       </el-popover>
@@ -170,11 +171,11 @@ export default {
       type: String,
       required: true,
     },
-    version: {
+    version: { //版本号
       type: String,
       default: 'v.1.0.0',
     },
-    documentUrl: {
+    documentUrl: { //用户手册地址
       type: String,
       default: '',
     },
@@ -357,6 +358,7 @@ export default {
   }
   .header-help{
     min-width: 100px!important;
+    background: #303133!important;
     .list{
       width: 100%;
       height: 30px;
@@ -382,6 +384,10 @@ export default {
       width: 70px;
       line-height: 30px;
       cursor: pointer;
+      color: #ffffff;
+    }
+    .popper__arrow::after{
+      border-bottom-color: #303133!important;
     }
   }
 </style>
