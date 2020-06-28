@@ -44,6 +44,12 @@ export default {
     toggle(){
       this.isShow=!this.isShow
       this.$emit('toggle',this.isShow)
+    },
+    setStatus(flag){
+      this.isShow = flag
+    },
+    getStatus(){
+      return this.isShow
     }
   },
   computed: {

@@ -359,6 +359,8 @@ export default {
   .header-help{
     min-width: 100px!important;
     background: #303133!important;
+    box-sizing: content-box;
+    border: 0!important;
     .list{
       width: 100%;
       height: 30px;

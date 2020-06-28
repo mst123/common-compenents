@@ -71,22 +71,22 @@ export default {
           restUrl: this.arcgisServerIP + "arcgis/rest/services/henan/行政区划2/MapServer",
         },
         {
-          filter: 'basemap:2:0,basemap:5:0,basemap:7_0:0',
+          filter: 'basemap:2:0,basemap:5:0,basemap:7_0:0,000AW:000AZ_0:0,000AW:000BP_0:0,000AW:000B0_0:0',
           title: '地形图',
           id: 'npm-sbz_dx'
         },
         {
-          filter: 'basemap:0:0,basemap:1_1:0,basemap:7_1:0',
+          filter: 'basemap:0:0,basemap:1_1:0,basemap:7_1:0,000AW:000AZ_1:0,000AW:000BP_1:0,000AW:000B0_1:0',
           title: '卫星图',
           id: 'npm-sbz_wx'
         },
         {
-          filter: 'basemap:4:0,basemap:7_0:0',
+          filter: 'basemap:4:0,basemap:5:0,basemap:7_0:0,000AW:000AZ_0:0,000AW:000BP_0:0,000AW:000B0_0:0',
           title: '政区图',
           id: 'npm-sbz_zq'
         },
         {
-          filter: 'basemap:3:0,basemap:7_0:0',
+          filter: 'basemap:4:0,basemap:5:0,basemap:7_0:0,000AW:000AZ_0:0,000AW:000BP_0:0,000AW:000B0_0:0,000AW:000AX_0:0,000AW:000BN_0:0,000AW:000EV_0:0',
           title: '流域图',
           id: 'npm-sbz_ly'
         }
@@ -326,10 +326,10 @@ export default {
           width: 66px;
         }
         &:nth-child(1){
-          background: url('../../assets/img/mapTools/影像.png') no-repeat center / cover;
+          background: url('../../assets/img/mapTools/yx.png') no-repeat center / cover;
         }
         &:nth-child(2){
-          background: url('../../assets/img/mapTools/矢量.png') no-repeat center / cover;
+          background: url('../../assets/img/mapTools/sl.png') no-repeat center / cover;
         }
         &:nth-child(3){
           background: url('../../assets/img/mapTools/dixing1_1.png') no-repeat center / cover;

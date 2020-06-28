@@ -35,6 +35,12 @@ export default {
     toggle(){
       this.isShow = !this.isShow
       this.$emit('toggle',this.isShow)
+    },
+    setStatus(flag){
+      this.isShow = flag
+    },
+    getStatus(){
+      return this.isShow
     }
   },
   watch:{  //监听
@@ -77,7 +83,6 @@ export default {
   color: rgb(255, 255, 255);
   position: absolute;
   border-radius: 5px;
-  font-size: 15px;
   background:rgba(8, 8, 8, 0.7);
   z-index: 33;
   color:#fff;
@@ -88,6 +93,7 @@ export default {
     text-align: center;
     cursor: pointer;
     position: relative;
+    font-size: 15px;
     i{
       color: #009688;
       position: absolute;

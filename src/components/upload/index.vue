@@ -222,9 +222,9 @@ export default {
           };
         } else if (this.fileType == "document") {
           accept = {
-            title: "doc,docx,txt,ppt,pptx,xls,xlsx,pdf压缩文件",
-            extensions: "doc,docx,txt,ppt,pptx,xls,xlsx,pdf",
-            mimeTypes: ".doc,.docx,.txt,.ppt,.pptx,.xls,.xlsx,.pdf",
+            title: "doc,docx,xls,xlsx,pdf压缩文件",
+            extensions: "doc,docx,xls,xlsx,pdf",
+            mimeTypes: ".doc,.docx,.xls,.xlsx,.pdf",
           };
         } else if (this.fileType == "image") {
           accept = {
