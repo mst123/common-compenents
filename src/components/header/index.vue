@@ -135,11 +135,13 @@ export default {
           }
         }, 400);
       })
-      if(this.$refs['header'].offsetWidth<=this.headerLeftWidth+this.headerRightWidth+this.$refs['header-menu'].offsetWidth+1){
-        this.viceMenuShow = true
-      }else{
-        this.viceMenuShow = false
-      }
+      setTimeout(() => {
+        if(this.$refs['header'].offsetWidth<=this.headerLeftWidth+this.headerRightWidth+this.$refs['header-menu'].offsetWidth+1){
+          this.viceMenuShow = true
+        }else{
+          this.viceMenuShow = false
+        }
+      },400)
     },
     openDocument(){
       window.open(this.documentUrl)

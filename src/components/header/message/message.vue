@@ -157,6 +157,7 @@ export default {
     },
     msgReset(){
       this.currentPage = 1
+      this.msgList = [];
       this.getUnHandleTotal()
     },
     msgEventBusInit(){

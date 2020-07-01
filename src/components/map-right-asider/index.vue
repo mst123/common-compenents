@@ -57,9 +57,9 @@ export default {
 <style lang='scss' scoped>
 .asider {
   transition: right 0.5s;
-  height: calc( 100% - 90px );
+  height: calc( 100% - 70px );
   position: fixed;
-  bottom: 20px;
+  bottom: 10px;
   display: flex;
   flex-flow: column;
   z-index: 10;

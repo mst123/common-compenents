@@ -2,7 +2,7 @@
   <div class="file-content">
     <div class="file-item" v-for="(item, index) of fileList" :key="index">
       <span :title="item.fileName" class="text" @click="previewFile(item.fileId)">{{item.fileName}}</span>
-      <i :disabled="disabled" class="el-tag__close el-icon-close" @click="deleteFile(index)"></i>
+      <i class="el-tag__close el-icon-close" @click="deleteFile(index)"></i>
     </div>
   </div>
 </template>
@@ -17,6 +17,9 @@ export default {
   },
   methods: {
     deleteFile(index){
+      if(this.disabled){
+        return
+      }
       let arr = this.fileList
       arr.splice(index,1)
       this.$emit('update:fileList', arr)

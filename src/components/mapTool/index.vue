@@ -63,7 +63,7 @@ export default {
           title: "影像",
           url: "http://139.9.125.12:7070/DataServer?T=img_w&x={col}&y={row}&l={level}",
           boundUrl: this.arcgisServerIP + 'arcgis/rest/services/henan/行政区划_浮雕边界_影像用/MapServer',
-          shadowUrl: this.arcgisServerIP + 'arcgis/rest/services/HeNanClicp/MapServer',
+          shadowUrl: this.arcgisServerIP + 'arcgis/rest/services/henan/全国_镂空_预防监督系统/MapServer',
         },
         {
           id: "npm-self-vec",
@@ -81,24 +81,100 @@ export default {
           id: 'npm-sbz_wx'
         },
         {
-          filter: 'basemap:4:0,basemap:5:0,basemap:7_0:0,000AW:000AZ_0:0,000AW:000BP_0:0,000AW:000B0_0:0',
+          filter: 'basemap:4:0,basemap:5:0,basemap:7_0:0,000AW:000AZ_0:0,000AW:000BP_0:0,000AW:000B0_0:0,000AW:000AX_0:0,000AW:000BN_0:0,000AW:000EV_0:0',
           title: '政区图',
           id: 'npm-sbz_zq'
         },
         {
-          filter: 'basemap:4:0,basemap:5:0,basemap:7_0:0,000AW:000AZ_0:0,000AW:000BP_0:0,000AW:000B0_0:0,000AW:000AX_0:0,000AW:000BN_0:0,000AW:000EV_0:0',
+          filter: 'basemap:3:0,basemap:1_0:0,basemap:7_0:0,basemap:8_0:0,000AW:000AZ_0:0,000AW:000BP_0:0,000AW:000B0_0:0,000AW:000AX_0:0,000AW:000BN_0:0,000AW:000EV_0:0',  
           title: '流域图',
           id: 'npm-sbz_ly'
         }
       ],
       baseLayerActiveIndex: 0, //当前显示的底图序号
+      resolutionList: [
+        {level: 0,
+        resolution: 156543.03392800014,
+        scale: 5.91657527591555E8},
+        {level: 1,
+        resolution: 78271.51696399994,
+        scale: 2.95828763795777E8},
+        {level: 2,
+        resolution: 39135.75848200009,
+        scale: 1.47914381897889E8},
+        {level: 3,
+        resolution: 19567.87924099992,
+        scale: 7.3957190948944E7},
+        {level: 4,
+        resolution: 9783.93962049996,
+        scale: 3.6978595474472E7},
+        {level: 5,
+        resolution: 4891.96981024998,
+        scale: 1.8489297737236E7},
+        {level: 6,
+        resolution: 2445.98490512499,
+        scale: 9244648.868618},
+        {level: 7,
+        resolution: 1222.992452562495,
+        scale: 4622324.434309},
+        {level: 8,
+        resolution: 611.4962262813797,
+        scale: 2311162.217155},
+        {level: 9,
+        resolution: 305.74811314055756,
+        scale: 1155581.108577},
+        {level: 10,
+        resolution: 152.87405657041106,
+        scale: 577790.554289},
+        {level: 11,
+        resolution: 76.43702828507324,
+        scale: 288895.277144},
+        {level: 12,
+        resolution: 38.21851414253662,
+        scale: 144447.638572},
+        {level: 13,
+        resolution: 19.10925707126831,
+        scale: 72223.819286},
+        {level: 14,
+        resolution: 9.554628535634155,
+        scale: 36111.909643},
+        {level: 15,
+        resolution: 4.77731426794937,
+        scale: 18055.954822},
+        {level: 16,
+        resolution: 2.388657133974685,
+        scale: 9027.977411},
+        {level: 17,
+        resolution: 1.1943285668550503,
+        scale: 4513.988705},
+        {level: 18,
+        resolution: 0.5971642835598172,
+        scale: 2256.994353},
+        {level: 19,
+        resolution: 0.29858214164761665,
+        scale: 1128.497176},
+      ]
     };
   },
   components: {
 
   },
   mounted() {
-    this.BaseLayerAdd()
+    loadModules([
+      "esri/layers/support/LOD",
+    ])
+    .then(([LOD]) => {
+      this.mapView.spatialReference = {
+        wkid:'3857'
+      }
+      this.mapView.constraints = {
+        lods:[...this.resolutionList.map(item => new LOD(item))]
+      }
+      this.BaseLayerAdd()
+    })
+    .catch(err => {
+      console.error(err);
+    })
   },
   props: {
     map: { //地图实例
@@ -141,18 +217,16 @@ export default {
   },
   methods: {
     zoomIn(){ //放大
-      if(!this.activeZoom){
-        this.activeZoom = this.mapView.zoom
-      }
-      this.activeZoom++
-      this.mapView.zoom = this.activeZoom
+      this.mapView.goTo({
+        zoom: this.mapView.zoom + 1,
+        center: this.mapView.center
+      })
     },
     zoomOut(){ //缩小
-      if(!this.activeZoom){
-        this.activeZoom = this.mapView.zoom
-      }
-      this.activeZoom--
-      this.mapView.zoom = this.activeZoom
+      this.mapView.goTo({
+        zoom: this.mapView.zoom - 1,
+        center: this.mapView.center
+      })
     },
     home(){
       this.mapView.goTo(this.center)
@@ -164,22 +238,93 @@ export default {
       if(this.baseLayerList[this.baseLayerActiveIndex].id=='npm-tdt-img'){
         this.layerControl(this.baseLayerList[this.baseLayerActiveIndex].id+'-bound', false)
         this.layerControl(this.baseLayerList[this.baseLayerActiveIndex].id+'-shadow', false)
+      }else if(this.baseLayerList[this.baseLayerActiveIndex].filter){
+        this.layerControl(this.baseLayerList[this.baseLayerActiveIndex].id+'-title', false)
       }
       this.layerControl(this.baseLayerList[this.baseLayerActiveIndex].id, false)
       if(this.baseLayerList[index].id=='npm-tdt-img'){
         this.layerControl(this.baseLayerList[index].id+'-bound', true)
         this.layerControl(this.baseLayerList[index].id+'-shadow', true)
+      }else if(this.baseLayerList[index].filter){
+        this.layerControl(this.baseLayerList[index].id+'-title', true)
       }
       this.layerControl(this.baseLayerList[index].id, true)
-      
       this.baseLayerActiveIndex = index
     },
     BaseLayerAdd(){ //底图添加 包括普通环境和水保站环境
       loadModules([
         "esri/layers/WebTileLayer",
-        "esri/layers/MapImageLayer"
+        "esri/layers/MapImageLayer",
+        "esri/layers/WMSLayer",
+        "esri/layers/BaseDynamicLayer",
+        "esri/geometry/support/webMercatorUtils",
+        "esri/core/urlUtils"
       ])
-      .then(([WebTileLayer, MapImageLayer]) => {
+      .then(([WebTileLayer, MapImageLayer, WMSLayer, BaseDynamicLayer, webMercatorUtils]) => {
+        let CustomWMSLayer = BaseDynamicLayer.createSubclass({
+          properties: {
+            mapUrl: null,
+            mapParameters: null
+          },
+          getImageUrl: function(extent, width, height) {
+            var urlVariables = this._prepareQuery(
+              this.mapParameters,
+              extent,
+              width,
+              height
+            );
+            var queryString = this._joinUrlVariables(urlVariables);
+            return this.mapUrl + "?" + queryString;
+          },
+          _prepareQuery: function(queryParameters, extent, width, height) {
+            var wkid = extent.spatialReference.isWebMercator
+              ? 3857
+              : extent.spatialReference.wkid;
+            let extentex
+            if(wkid==3857){
+              extentex = webMercatorUtils.webMercatorToGeographic(extent)
+            }else{
+              extentex = extent
+            }
+            var replacers = {
+              width: width,
+              height: height,
+              xmin: extentex.xmin,
+              xmax: extentex.xmax,
+              ymin: extentex.ymin,
+              ymax: extentex.ymax
+            };
+            var urlVariables = this._replace({}, queryParameters, replacers);
+            return urlVariables;
+          },
+          _replace: function(urlVariables, queryParameters, replacers) {
+            try {
+              Object.keys(queryParameters).forEach(function(key) {
+                urlVariables[key] = Object.keys(replacers).reduce(function(
+                  previous,
+                  replacerKey
+                ) {
+                  return previous.replace(
+                    "{" + replacerKey + "}",
+                    replacers[replacerKey]
+                  );
+                },
+                queryParameters[key]);
+              });
+            } catch (error) {
+              console.log(error);
+
+            }
+            return urlVariables;
+          },
+          _joinUrlVariables: function(urlVariables) {
+            return Object.keys(urlVariables).reduce(function(previous, key) {
+              return (
+                previous + (previous ? "&" : "") + key + "=" + urlVariables[key]
+              );
+            }, "");
+          }
+        })
         this.baseLayerList.forEach((item, index) => {
           let baseMapLayer
           if(item.filter){
@@ -188,6 +333,28 @@ export default {
               visible: item.id==this.activeLayerId?true:false,
               id: item.id
             })
+            let color_id = item.title=='卫星图'?'1':'0'
+            let titleLayer =  new CustomWMSLayer({
+              id: item.id + '-title',
+              visible: (item.id==this.activeLayerId)?true:false,
+              mapUrl: 'http://10.41.24.9:8093/api/wms',
+              mapParameters: {
+                layers:'000BP,000B0,000AZ',
+                user_id:'13346',
+                color_id,
+                tiled:'false',
+                draw_text:'true',
+                union_lyr:'true',
+                SERVICE: "WMS",
+                REQUEST: "GetMap",
+                FORMAT: "image/png",
+                VERSION: "1.1.1",
+                WIDTH: "{width}",
+                HEIGHT: "{height}",
+                BBOX: "{xmin},{ymin},{xmax},{ymax}"
+              }
+            });
+            this.map.add(titleLayer, 10)
           }else if(item.url){
             baseMapLayer = new WebTileLayer(
               {
@@ -228,7 +395,9 @@ export default {
       .catch(err => {
         console.error(err);
       });
-    }
+    },
+    CustomWMSLayer(){
+    } 
   },
   computed: {
     positionStyle() {
