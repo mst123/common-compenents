@@ -153,6 +153,9 @@ export default {
         {level: 19,
         resolution: 0.29858214164761665,
         scale: 1128.497176},
+        {level: 20,
+        resolution: 0.14929107082380832,
+        scale: 564.248588},
       ]
     };
   },

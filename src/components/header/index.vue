@@ -128,7 +128,7 @@ export default {
       window.addEventListener('resize', () => {
         clearTimeout(timer)
         timer = setTimeout(() => {
-          if(this.$refs['header'].offsetWidth<=this.headerLeftWidth+this.headerRightWidth+this.$refs['header-menu'].offsetWidth+1){
+          if(this.$refs['header'].offsetWidth<=this.headerLeftWidth+this.headerRightWidth+this.$refs['header-menu'].offsetWidth+12){
             this.viceMenuShow = true
           }else{
             this.viceMenuShow = false
@@ -136,7 +136,7 @@ export default {
         }, 400);
       })
       setTimeout(() => {
-        if(this.$refs['header'].offsetWidth<=this.headerLeftWidth+this.headerRightWidth+this.$refs['header-menu'].offsetWidth+1){
+        if(this.$refs['header'].offsetWidth<=this.headerLeftWidth+this.headerRightWidth+this.$refs['header-menu'].offsetWidth+12){
           this.viceMenuShow = true
         }else{
           this.viceMenuShow = false

@@ -28,7 +28,7 @@ export default {
       return this.fileList
     },
     previewFile(fileId){
-      window.open('http://139.9.125.12:6079/swc-fileserver/fileview/viewFileById?id='+fileId)
+      window.open(this.fileServer + 'fileview/viewFileById?id='+fileId)
     }
   },
   mounted() {
@@ -42,6 +42,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    fileServer: {
+      require: true,
+      type: String,
     }
   },
   created () {
